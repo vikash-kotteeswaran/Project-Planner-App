@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run backend",
+    "start": "npm run frontend && cd .. && npm run backend",
     "frontend": "cd frontend && npm install --only=dev && npm install && npm run build",
     "backend": "cd backend && npm install --only=dev && npm install && npm start"
   },
