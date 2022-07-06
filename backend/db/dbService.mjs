@@ -13,13 +13,7 @@ const connection = mysql.createConnection({
     port: process.env.DB_PORT,
 });
 
-// const connection = mysql.createConnection({
-//     host: 'remotemysql.com',
-//     user: 'rd55m7yS9u',
-//     database: 'rd55m7yS9u',
-//     password: 'PFYAMddWsi',
-//     port: 3306,
-// });
+setInterval(() => {connection.query('SELECT 1')}, 5000);
 
 connection.connect((err) => {
     if(err){
