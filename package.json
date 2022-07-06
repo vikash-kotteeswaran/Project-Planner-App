@@ -1,9 +1,10 @@
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run frontend",
+    "start": "cd frontend && npm install --only=dev && npm install && npm start",
     "frontend": "cd frontend && npm install --only=dev && npm install && npm run build",
-    "backend": "cd backend && npm install --only=dev && npm install && npm start"
+    "backend": "cd backend && npm install --only=dev && npm install && npm start",
+    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3"
