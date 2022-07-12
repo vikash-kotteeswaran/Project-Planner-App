@@ -32,7 +32,7 @@ class DbService {
     async getAllData(){ 
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM user;";
+                const query = "SELECT * FROM usersCred;";
     
                 connection.query(query, (err, res) => {
                     if(err) reject(new Error(err.message));
@@ -52,7 +52,7 @@ class DbService {
         // res - result, resp - response, reject, resolve, err - error
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO user (name, password, date) VALUES (?, ?, CURRENT_TIMESTAMP)";
+                const query = "INSERT INTO usersCred (name, password, date) VALUES (?, ?, CURRENT_TIMESTAMP)";
 
                 connection.query(query, [name, password], (err, res) => {
                     if(err) reject(new Error(err.message));
@@ -72,7 +72,7 @@ class DbService {
     async updateRow(id, colNvalDict){
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = "UPDATE user SET";
+                let query = "UPDATE usersCred SET";
                 const entries = Object.entries(colNvalDict);
                 query += ` ${entries[0][0]} = '${entries[0][1]}' `;
 
@@ -100,7 +100,7 @@ class DbService {
     async deleteRow(id){
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = "DELETE FROM user WHERE id = ?;"
+                const query = "DELETE FROM usersCred WHERE id = ?;"
 
                 connection.query(query, [id], (err, res) => {
                     if(err) reject(new Error(err.message));
@@ -117,20 +117,24 @@ class DbService {
         };
     };
 
-    async searchRows(type, oldQuery, nature, column, value){
+    async searchRows(types, natures, fields, values){
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = oldQuery? oldQuery.replace(';', '') + ` ${nature} ` : `SELECT * FROM user WHERE `;
+                if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
+                let query = `SELECT * FROM usersCred WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
 
-                if(type == 'LIKE'){
-                    value = `%${value}%`;
+                for(let i = 1; i< types.length; i++){
+                    if(types[i] == 'LIKE') values[i] = `%${values[i]}%`;
+                    query += `${natures[i-1]} ${fields[i]} ${types[i]} '${values[i]}'`;
                 }
+                
+                query += ";";
 
-                query += `${column} ${type} '${value}';`;
+                console.log(query);
 
                 connection.query(query, (err, res) => {
                     if(err) reject(new Error(err.message));
-                    else resolve({'data' : res, 'query': query});
+                    else resolve(res);
                 });
             });
 

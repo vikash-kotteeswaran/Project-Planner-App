@@ -68,25 +68,44 @@ app.delete('/api/deleteData', (req, res) => {
     .catch(err => console.log(err));
 })
 
-app.post('/api/searchData', (req, res) => {
-    const type = req.body.type.toUpperCase();
-    if(type != 'LIKE' && type != '>' && type != '<' && type != '>=' && type != '<=' && type != '='){
-        throw new Error('type of search is invalid');
+const checkNatureOfQuery = (natures) => {
+    for(let nature of natures){
+        if(nature != 'AND' && nature != 'OR'){
+            throw new Error('nature of search is invalid');
+        }
     }
+}
 
-    const nature = req.body.nature.toUpperCase();
-    if(nature != 'AND' && nature != 'OR'){
-        throw new Error('nature of search is invalid');
+const checkTypeOfQuery = (types) => {
+    for(let type of types){
+        if(type != 'LIKE' && type != '>' && type != '<' && type != '>=' && type != '<=' && type != '='){
+            throw new Error('type of search is invalid');
+        }
     }
+}
 
-    const [field, value] = Object.entries(req.body.searchElement)[0];
-    const oldQuery = req.body.oldQuery;
+const toObject = (data) => {
+    if(typeof(data) != "object"){
+        data = [data];
+    }
+    return data;
+}
+
+app.get('/api/searchData', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
 
     const DbInstance = DbService.getInstance();
-    const result =  DbInstance.searchRows(type, oldQuery, nature, field, value);
+    const result =  DbInstance.searchRows(types, natures, fields, values);
 
     result
-    .then(data => res.json({'success': data}))
+    .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
 })
 
