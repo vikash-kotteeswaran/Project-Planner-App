@@ -9,7 +9,7 @@ import { Navigate } from 'react-router-dom';
 function App() {
 
   const auth = useSelector(state => state.auth);
-  console.log("App: ", auth);
+  // console.log("App: ", auth);
   
   return (
     <Router>

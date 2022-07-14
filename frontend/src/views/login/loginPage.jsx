@@ -29,10 +29,9 @@ const LoginPage = () => {
     }
 
     useEffect(() => {
-        if(auth.LoggedIn == true){
-            navigate('/dashboard');
-        }
-    }, [auth.LoggedIn])
+        if(auth.authorized) dispatch(logIn());
+        if(auth.LoggedIn) navigate('/dashboard');
+    }, [auth.LoggedIn, auth.authorized]);
 
     return(
         <div className='login-page'>

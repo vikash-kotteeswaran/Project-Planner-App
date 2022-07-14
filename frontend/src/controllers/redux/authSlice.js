@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 export const Authenticate = createAsyncThunk('auth/Authenticate', async (payload) => {
     const response = await fetch(`https://api-projectplanner.herokuapp.com/api/searchData?types==&natures=AND&fields=name&values=${payload.name}&types==&natures=AND&fields=password&values=${payload.password}`);
     const present = response.json();
-
     return present;
 })
 
@@ -18,10 +17,10 @@ const authSlice = createSlice({
         failure: false
     },
     reducers: {
-        logIn: (state, action) => {
-            const { name, password } = action.payload;
-            state.authorized = true;
-            state.LoggedIn = true;
+        logIn: (state) => {
+            if(state.authorized){
+                state.LoggedIn = true;
+            };
         },
 
         logOut: (state) => {
@@ -35,7 +34,6 @@ const authSlice = createSlice({
         },
         failure_span: (state, action) => {
             state.failure = action.payload.failure;
-            console.log('faiulure')
         }
     },
     extraReducers:{
@@ -45,7 +43,6 @@ const authSlice = createSlice({
 
             if(action.payload.success.data.length === 1){
                 state.authorized = true;
-                state.LoggedIn = true;
             } else{
                 state.failure = true;
             }
