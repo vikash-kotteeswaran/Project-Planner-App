@@ -9,13 +9,13 @@ import { Navigate } from 'react-router-dom';
 function App() {
 
   const auth = useSelector(state => state.auth);
-  console.log(auth);
+  console.log("App: ", auth);
   
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route exact path='/' element={auth.LoggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/' element={auth.LoggedIn ? <Navigate to='/dashboard' /> : <Navigate to='/login' />}></Route>
           <Route exact path='/login' element={<LoginPage />}></Route>
           <Route exact path='/dashboard' element={auth.LoggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route>
           <Route exact path='/signup' element={<SignUpPage />}></Route>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../controllers/redux/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { failure_span, logIn, Authenticate } from '../../controllers/redux/authSlice';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
+import "./loginPage.css";
 
 const LoginPage = () => {
     const [formInput, setFormInput] = useState({
@@ -10,6 +11,7 @@ const LoginPage = () => {
         password:""
     });
 
+    let auth = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -18,24 +20,31 @@ const LoginPage = () => {
             ...formInput,
             [event.target.name]: event.target.value
         })
+        if(auth.failure) dispatch(failure_span({failure: false}));
     }
 
     const onSubmit = (event) => {
-        dispatch(logIn(formInput));
+        dispatch(Authenticate(formInput));
         event.preventDefault();
-        // console.log(formInput);
-        navigate('/dashboard');
     }
+
+    useEffect(() => {
+        if(auth.LoggedIn == true){
+            navigate('/dashboard');
+        }
+    }, [auth.LoggedIn])
 
     return(
         <div className='login-page'>
             <form className='login-form'>
-                <h2>Login</h2>
-                <input name='name' className='login-name' placeholder='Name' onChange={onInputChange} value={formInput.name} required></input>
-                <input name='password' className='login-password' type='password' placeholder='Password' onChange={onInputChange} value={formInput.password} required></input>
-                <button type='submit' onClick={onSubmit}>Login</button>
-                <button type='submit' onClick={() => navigate('/signup')}>SignUp</button>
+                <h2>LOGIN</h2>
+                <input name='name' className='login-name' placeholder='Name' onChange={onInputChange} value={formInput.name}></input>
+                <input name='password' className='login-password' type='password' placeholder='Password' onChange={onInputChange} value={formInput.password}></input>
+                <button className = 'login-button' type='submit' onClick={onSubmit}><span>Login</span></button>
+                {auth.failure? <span className='login-failure'>This account does not exist</span> : <></>}
+                <span className='signup-link'>Create an account? <Link to="/signup">signUp</Link></span>
             </form>
+            
         </div>
     )
 };
