@@ -15,9 +15,9 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route exact path='/' element={auth.LoggedIn ? <Navigate to='/dashboard' /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/' element={auth.loggedIn ? <Navigate to='/dashboard' /> : <Navigate to='/login' />}></Route>
           <Route exact path='/login' element={<LoginPage />}></Route>
-          <Route exact path='/dashboard' element={auth.LoggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/dashboard' element={auth.loggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route>
           <Route exact path='/signup' element={<SignUpPage />}></Route>
         </Routes>
       </div>

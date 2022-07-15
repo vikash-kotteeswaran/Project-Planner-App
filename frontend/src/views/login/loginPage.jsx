@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { failure_span, logIn, Authenticate } from '../../controllers/redux/authSlice';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
+import { failure_span, logIn, authenticate } from '../../controllers/redux/authSlice';
+import { useNavigate, Link } from 'react-router-dom';
 import "./loginPage.css";
 
 const LoginPage = () => {
@@ -11,7 +11,7 @@ const LoginPage = () => {
         password:""
     });
 
-    let auth = useSelector(state => state.auth);
+    const auth = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -24,14 +24,15 @@ const LoginPage = () => {
     }
 
     const onSubmit = (event) => {
-        dispatch(Authenticate(formInput));
+        dispatch(authenticate(formInput));
+        // https://stackoverflow.com/questions/37146302/event-preventdefault-in-async-functions
         event.preventDefault();
     }
 
     useEffect(() => {
         if(auth.authorized) dispatch(logIn());
-        if(auth.LoggedIn) navigate('/dashboard');
-    }, [auth.LoggedIn, auth.authorized]);
+        if(auth.loggedIn) navigate('/dashboard');
+    }, [auth.loggedIn, auth.authorized, dispatch, navigate]);
 
     return(
         <div className='login-page'>
