@@ -39,32 +39,32 @@ const DashboardPage = () => {
     return (
         <div className='dashboard'>
             <div className='sidebar'>
-                <div className='sidebar-view-ops' id='my-projects'>
-                    <span className='sidebar-ops' onClick={() => {setView('my-projects')}}>My Projects</span>
+                <div className='sidebar-view-ops' id='my-projects' onClick={() => {setView('my-projects')}}>
+                    <span className='sidebar-ops'>My Projects</span>
                     <span className='sidebar-ops-icon'>M</span>
                 </div>
-                <div className='sidebar-view-ops' id='projects'>
-                    <span className='sidebar-ops' onClick={() => {setView('projects')}}>Projects</span>
+                <div className='sidebar-view-ops' id='projects' onClick={() => {setView('projects')}}>
+                    <span className='sidebar-ops'>Projects</span>
                     <span className='sidebar-ops-icon'>P</span>
                 </div>
-                <div className='sidebar-view-ops' id='tasks'>
-                    <span className='sidebar-ops' onClick={() => {setView('tasks')}}>Tasks</span>
+                <div className='sidebar-view-ops' id='tasks' onClick={() => {setView('tasks')}}>
+                    <span className='sidebar-ops'>Tasks</span>
                     <span className='sidebar-ops-icon'>T</span>
                 </div>
-                <div className='sidebar-view-ops' id='stats'>
-                    <span className='sidebar-ops' onClick={() => {setView('stats')}}>Stats</span>
+                <div className='sidebar-view-ops' id='stats' onClick={() => {setView('stats')}}>
+                    <span className='sidebar-ops'>Stats</span>
                     <span className='sidebar-ops-icon'>S</span>
                 </div>
-                <div className='sidebar-view-ops' id='profile'>
-                    <span className='sidebar-ops' onClick={() => {setView('profile')}}>Profile</span>
+                <div className='sidebar-view-ops' id='profile' onClick={() => {setView('profile')}}>
+                    <span className='sidebar-ops'>Profile</span>
                     <span className='sidebar-ops-icon'>P</span>
                 </div>
-                <div className='sidebar-view-ops' id='settings'>
-                    <span className='sidebar-ops' onClick={() => {setView('settings')}}>Settings</span>
+                <div className='sidebar-view-ops' id='settings' onClick={() => {setView('settings')}}>
+                    <span className='sidebar-ops'>Settings</span>
                     <span className='sidebar-ops-icon'>S</span>
                 </div>
-                <div className='sidebar-view-ops' id='logout'>
-                    <span className='sidebar-ops' onClick={onButton}>Logout</span>
+                <div className='sidebar-view-ops' id='logout' onClick={onButton}>
+                    <span className='sidebar-ops'>Logout</span>
                     <span className='sidebar-ops-icon'>L</span>
                 </div>
             </div>

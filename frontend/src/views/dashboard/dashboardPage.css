@@ -21,7 +21,7 @@ div.sidebar:hover .sidebar-ops-icon{
 
 div.sidebar:hover {
     flex: 0.2;
-    
+
 }
 
 div.main-view {
@@ -38,6 +38,7 @@ div.sidebar-view-ops {
     height: 70px;
     background-color: rgba(240, 255, 255, 0.7);
     font-size: 16pt;
+    cursor: default;
 }
 
 div.sidebar-view-ops:hover {
