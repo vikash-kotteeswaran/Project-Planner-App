@@ -45,9 +45,10 @@ const authSlice = createSlice({
             state.signedUp = false;
         },
 
-        signUp: (state, action) => {
-            const {name, password} = action.payload;
+        guestLogIn: (state) => {
+            state.authorized = true;
         },
+
         failure_span: (state, action) => {
             state.failure = action.payload.failure;
         }
@@ -75,4 +76,4 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const {logIn, logOut, signUp, failure_span} = authSlice.actions;
+export const {logIn, logOut, signUp, failure_span, guestLogIn} = authSlice.actions;

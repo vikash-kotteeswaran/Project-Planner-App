@@ -30,7 +30,7 @@ input::placeholder{
     color:black;
 }
 
-.login-button{
+.login-button, .guest-login{
     margin:10px;
     position: relative;
     margin-top: 20px;
@@ -46,12 +46,12 @@ input::placeholder{
     font-size: 15pt;
 }
 
-.login-button span{
+.login-button span, .guest-login span{
     position: relative;
     z-index: 1;
 }
 
-.login-button::before{
+.login-button::before, .guest-login::before{
     content:'';
     position: absolute;
     background: #333333;
@@ -66,20 +66,20 @@ input::placeholder{
     transform: translate(-50%, -50%);
 }
 
-.login-button:hover::before{
+.login-button:hover::before, .guest-login:hover::before{
     height: 120px;
     width: 120px;
     transform: translate(-50%, -50%);
 }
 
-.login-button:hover{
+.login-button:hover, .guest-login:hover{
     color:whitesmoke;
     left: 0;
     transition: color 0.3s ease;
     -ms-transition: color 0.3s ease;
 }
 
-.login-button:active{
+.login-button:active, .guest-login:active{
     transform: translateY(3px);
     transition: 0.3s ease;
     -ms-transition: 0.3s ease;

@@ -1,0 +1,53 @@
+
+div.dashboard {
+    display: flex;
+    height: 100vh;
+}
+
+div.sidebar {
+    display: flex;
+    flex: 0.05;
+    flex-direction: column;
+    background-color: gray;
+}
+
+div.sidebar:hover .sidebar-ops{
+    display: block;
+}
+
+div.sidebar:hover .sidebar-ops-icon{
+    display: none;
+}
+
+div.sidebar:hover {
+    flex: 0.2;
+    
+}
+
+div.main-view {
+    display: flex;
+    flex: 1;
+    background-color: beige;
+}
+
+div.sidebar-view-ops {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1px;
+    height: 70px;
+    background-color: rgba(240, 255, 255, 0.7);
+    font-size: 16pt;
+}
+
+div.sidebar-view-ops:hover {
+    background-color: rgba(240, 255, 255, 1);
+}
+
+.sidebar-ops-icon {
+    display: block;
+}
+
+.sidebar-ops {
+    display: none;
+}

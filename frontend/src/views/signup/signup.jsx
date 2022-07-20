@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUp, addUser } from '../../controllers/redux/authSlice';
 import { useNavigate, Link } from 'react-router-dom';
-import "./signup.css";
+import './signup.css';
 
 const SignUpPage = () => {
     const [formInput, setFormInput] = useState({
@@ -43,6 +43,12 @@ const SignUpPage = () => {
         }
     }
 
+    const handleKeyPress = (event) => {
+        if(event.key == 'enter'){
+            onSubmit(event);
+        }
+    }
+
     return(
         <div className='signup-page'>
             <form className='signup-form'>
@@ -51,7 +57,7 @@ const SignUpPage = () => {
                 <input name='password' className='signup-password' type='password' placeholder='Password' onChange={onInputChange} value={formInput.password}></input>
                 <input name='verify' className='signup-verify' placeholder={`${verifyInput.num1} + ${verifyInput.num2}`} onChange={onInputChange} value={verifyInput.verify}></input>
                 {auth.signedUp?<span className='signup-signedup'>Successfully signed up</span> : <></>}
-                <button className='signup-button' type='submit' onClick={onSubmit}><span>SignUp</span></button>
+                <button className='signup-button' type='submit' onClick={onSubmit} onKeyPress = {onSubmit}><span>SignUp</span></button>
                 <span className='signup-link'>Already have an account? <Link to="/login">login</Link></span>
             </form>
         </div>
