@@ -6,22 +6,47 @@ div.dashboard {
 
 div.sidebar {
     display: flex;
-    flex: 0.05;
+    width: 70px;
     flex-direction: column;
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.7);
+    border-right: rgba(128, 128, 128) solid 1px;
+    -webkit-transition: width 0.7s ease-in-out;
+    -moz-transition: width 0.7s ease-in-out;
+    -o-transition: width 0.7s ease-in-out;
+    transition: width 0.7s ease-in-out;
+}
+
+#app-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    font-size: 16pt;
+    background-color:aliceblue;
+    white-space: nowrap;
+    cursor: default;
 }
 
 div.sidebar:hover .sidebar-ops{
-    display: block;
+    width: auto;
+    opacity: 1;
+    -o-animation: makeSidebarOpsVisible 0.35s;
+    -moz-animation: makeSidebarOpsVisible 0.35s;
+    -webkit-animation: makeSidebarOpsVisible 0.35s;
+    animation: makeSidebarOpsVisible 0.35s;
 }
 
 div.sidebar:hover .sidebar-ops-icon{
-    display: none;
+    width: 0px;
+    opacity: 0;
+    -o-animation: makeSidebarOpsIconHidden 0.35s;
+    -moz-animation: makeSidebarOpsIconHidden 0.35s;
+    -webkit-animation: makeSidebarOpsIconHidden 0.35s;
+    animation: makeSidebarOpsIconHidden 0.35s;
 }
 
 div.sidebar:hover {
-    flex: 0.2;
-
+    width: 200px;
 }
 
 div.main-view {
@@ -36,19 +61,51 @@ div.sidebar-view-ops {
     align-items: center;
     margin: 1px;
     height: 70px;
-    background-color: rgba(240, 255, 255, 0.7);
     font-size: 16pt;
     cursor: default;
+    white-space: nowrap;
 }
 
 div.sidebar-view-ops:hover {
-    background-color: rgba(240, 255, 255, 1);
+    background-color: rgba(128, 128, 128, 1);
 }
 
 .sidebar-ops-icon {
-    display: block;
+    width: auto;
+    opacity: 1;
 }
 
 .sidebar-ops {
-    display: none;
+    width: 0px;
+    opacity: 0;
+}
+
+@keyframes makeSidebarOpsIconHidden {
+    0%{
+        width: auto;
+        opacity: 1;
+    }
+    75%{
+        width: 0px;
+        opacity: 0;
+    }
+    100%{
+        width: 0px;
+        opacity: 0;
+    }
+}
+
+@keyframes makeSidebarOpsVisible {
+    0%{
+        width: 0px;
+        opacity: 0;
+    }
+    99%{
+        width: 0px;
+        opacity: 0;
+    }
+    100%{
+        width: auto;
+        opacity: 1;
+    }
 }
