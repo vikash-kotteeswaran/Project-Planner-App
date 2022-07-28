@@ -1,3 +1,5 @@
 node_modules/
 frontend/
 # backend/
+App_Backend.code-workspace
+App_Frontend.code-workspace
