@@ -14,7 +14,7 @@
 // .then(data => console.log(data));
 ////////////////////////////////////////////////////////////////////////////////
 
-import DbService from "./db/dbService.mjs";
+import {UserCredDbService, ProjectsDbService, TasksDbService} from "./db/dbService.mjs";
 import express from 'express';
 import cors from 'cors';
 
@@ -27,46 +27,241 @@ app.get('/api', (req, res) => {
     res.json({'Welcome': 'Mutton kuska wa'});
 })
 
-app.get('/api/getAll', (req, res) => {
-    const DbInstance = DbService.getInstance();
-    const result = DbInstance.getAllData();
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// UsersCred Access
+
+app.get('/api/getAllUsersCred', (req, res) => {
+    const start = req.query.start;
+    const count = req.query.count;
+
+    const DbInstance = UserCredDbService.getInstance();
+    const result = DbInstance.getAllUserCred(start, count);
 
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
 })
 
-app.post('/api/addUser', (req, res) => {
+app.post('/api/addUsersCred', (req, res) => {
     const {name, password} = req.body;
-    const DbInstance = DbService.getInstance();
-    const result = DbInstance.addRow(name, password);
+    const DbInstance = UserCredDbService.getInstance();
+    const result = DbInstance.addUserCred(name, password);
 
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
 })
 
-app.put('/api/updateData', (req, res) => {
-    const id = req.body.id;
+app.put('/api/updateUsersCred', (req, res) => {
+    const userId = req.body.userId;
     const fieldsDict = req.body.fieldsValues;
-    const DbInstance = DbService.getInstance();
-    const result = DbInstance.updateRow(id, fieldsDict);
+    const DbInstance = UserCredDbService.getInstance();
+    const result = DbInstance.updateUserCred(userId, fieldsDict);
 
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err))
 })
 
-app.delete('/api/deleteData', (req, res) => {
-    const id = req.body.id;
+app.delete('/api/deleteUsersCred', (req, res) => {
+    const userId = req.body.userId;
 
-    const DbInstance = DbService.getInstance();
-    const result =  DbInstance.deleteRow(id);
+    const DbInstance = UserCredDbService.getInstance();
+    const result =  DbInstance.deleteUserCred(userId);
 
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
 })
+
+app.get('/api/searchUsersCred', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
+    const start = req.query.start;
+    const count = req.query.count;
+
+    const DbInstance = UserCredDbService.getInstance();
+    const result =  DbInstance.searchUserCred(types, natures, fields, values, start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ProjectsDetails Access
+
+app.get('/api/getAllProjectsDetails', (req, res) => {
+    const start = req.query.start;
+    const count = req.query.count;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.getAllProjectsDetails(start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+app.post('/api/addProjectsDetails', (req, res) => {
+    const {title, userId, admin, description, status} = req.body;
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.addProjectsDetails(title, userId, admin, description, status);
+
+    result
+    .then(data => res.json({'success': data}))
+    .catch(err => console.log(err));
+})
+
+app.put('/api/updateProjectsDetails', (req, res) => {
+    const projectId = req.body.projectId;
+    const fieldsDict = req.body.fieldsValues;
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.updateProjectsDetails(projectId, fieldsDict);
+
+    result
+    .then(data => res.json({'success': data}))
+    .catch(err => console.log(err))
+})
+
+app.delete('/api/deleteProjectsDetails', (req, res) => {
+    const projectId = req.body.projectId;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result =  DbInstance.deleteProjectsDetails(projectId);
+
+    result
+    .then(data => res.json({'success': data}))
+    .catch(err => console.log(err));
+})
+
+app.get('/api/searchProjectsDetails', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
+    const start = req.query.start;
+    const count = req.query.count;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result =  DbInstance.searchProjectsDetails(types, natures, fields, values, start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+app.get('/api/getUserProjectsDetails', (req, res) => {
+    const start = req.query.start;
+    const count = req.query.count;
+    const userId = req.query.userId;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.getUserProjectsDetails(userId, start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ProjectsDetails Access
+
+app.get('/api/getAllTasks', (req, res) => {
+    const start = req.query.start;
+    const count = req.query.count;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.getAllTasks(start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+app.post('/api/addTasks', (req, res) => {
+    const {userId, projectId, title, description, status} = req.body;
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.addTasks(userId, projectId, title, description, status);
+
+    result
+    .then(data => res.json({'success': data}))
+    .catch(err => console.log(err));
+})
+
+app.put('/api/updateTasks', (req, res) => {
+    const taskId = req.body.taskId;
+    const fieldsDict = req.body.fieldsValues;
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.updateTasks(taskId, fieldsDict);
+
+    result
+    .then(data => res.json({'success': data}))
+    .catch(err => console.log(err))
+})
+
+app.delete('/api/deleteTasks', (req, res) => {
+    const taskId = req.body.taskId;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result =  DbInstance.deleteTasks(taskId);
+
+    result
+    .then(data => res.json({'success': data}))
+    .catch(err => console.log(err));
+})
+
+app.get('/api/searchTasks', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
+    const start = req.query.start;
+    const count = req.query.count;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result =  DbInstance.searchTasks(types, natures, fields, values, start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+app.get('/api/getUserTasks', (req, res) => {
+    const start = req.query.start;
+    const count = req.query.count;
+    const userId = req.query.userId;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.getUserTasks(userId, start, count);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.get('/api/*', (req, res) => {
+    res.json({'Error': 'Invalid Api Call'});
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Helper Functions
 
 const checkNatureOfQuery = (natures) => {
     for(let nature of natures){
@@ -90,23 +285,5 @@ const toObject = (data) => {
     }
     return data;
 }
-
-app.get('/api/searchData', (req, res) => {
-    const types = toObject(req.query.types).map(type => type.toUpperCase());
-    checkTypeOfQuery(types);
-
-    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
-    checkNatureOfQuery(natures);
-
-    const fields = toObject(req.query.fields);
-    const values = toObject(req.query.values);
-
-    const DbInstance = DbService.getInstance();
-    const result =  DbInstance.searchRows(types, natures, fields, values);
-
-    result
-    .then(data => res.json({'success': {'data': data}}))
-    .catch(err => console.log(err));
-})
 
 app.listen(process.env.PORT || 3030, () => console.log('app is listening'));
