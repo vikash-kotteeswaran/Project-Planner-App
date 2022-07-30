@@ -1,0 +1,31 @@
+
+def calculateHelper(N, K, array, st, end):
+    count = 0
+    if(N==0):
+        return count
+    for i in range(st, end+1):
+        arr = array + [i]
+        su = arr[0]
+        k = True
+        for j in range(1, len(arr)):
+            if(arr[j] < K*arr[j-1]):
+                k = False; 
+            su += arr[j]
+
+        if(k and su == N):
+            count+=1
+            
+        count += calculateHelper(N, K, array + [i], i+1, N-i)
+        
+    return count
+        
+def calculate(N, K):
+    return calculateHelper(N, K, [], 1, N)
+
+print(calculate(5, 2))
+print(calculate(10, 3))
+print(calculate(20, 4))
+        
+    
+    
+    

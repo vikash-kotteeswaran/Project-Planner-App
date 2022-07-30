@@ -8,9 +8,11 @@ import { Provider } from 'react-redux';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import authSlice  from './controllers/redux/authSlice';
+import myProjectSlice from './controllers/redux/myProjectSlice';
 
 const reducer = combineReducers({
-  auth: authSlice
+  auth: authSlice,
+  myProject: myProjectSlice
 });
 
 const store = configureStore({reducer});
