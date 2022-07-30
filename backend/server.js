@@ -181,7 +181,7 @@ app.get('/api/getAllTasks', (req, res) => {
     const start = req.query.start;
     const count = req.query.count;
 
-    const DbInstance = ProjectsDbService.getInstance();
+    const DbInstance = TasksDbService.getInstance();
     const result = DbInstance.getAllTasks(start, count);
 
     result
@@ -191,7 +191,7 @@ app.get('/api/getAllTasks', (req, res) => {
 
 app.post('/api/addTasks', (req, res) => {
     const {userId, projectId, title, description, status} = req.body;
-    const DbInstance = ProjectsDbService.getInstance();
+    const DbInstance = TasksDbService.getInstance();
     const result = DbInstance.addTasks(userId, projectId, title, description, status);
 
     result
@@ -202,7 +202,7 @@ app.post('/api/addTasks', (req, res) => {
 app.put('/api/updateTasks', (req, res) => {
     const taskId = req.body.taskId;
     const fieldsDict = req.body.fieldsValues;
-    const DbInstance = ProjectsDbService.getInstance();
+    const DbInstance = TasksDbService.getInstance();
     const result = DbInstance.updateTasks(taskId, fieldsDict);
 
     result
@@ -213,7 +213,7 @@ app.put('/api/updateTasks', (req, res) => {
 app.delete('/api/deleteTasks', (req, res) => {
     const taskId = req.body.taskId;
 
-    const DbInstance = ProjectsDbService.getInstance();
+    const DbInstance = TasksDbService.getInstance();
     const result =  DbInstance.deleteTasks(taskId);
 
     result
@@ -233,7 +233,7 @@ app.get('/api/searchTasks', (req, res) => {
     const start = req.query.start;
     const count = req.query.count;
 
-    const DbInstance = ProjectsDbService.getInstance();
+    const DbInstance = TasksDbService.getInstance();
     const result =  DbInstance.searchTasks(types, natures, fields, values, start, count);
 
     result
@@ -246,7 +246,7 @@ app.get('/api/getUserTasks', (req, res) => {
     const count = req.query.count;
     const userId = req.query.userId;
 
-    const DbInstance = ProjectsDbService.getInstance();
+    const DbInstance = TasksDbService.getInstance();
     const result = DbInstance.getUserTasks(userId, start, count);
 
     result

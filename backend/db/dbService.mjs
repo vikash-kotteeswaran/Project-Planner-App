@@ -35,7 +35,7 @@ export class UserCredDbService {
     async getAllUserCred(start, count){ 
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = 'SELECT * FROM usersCred';
+                let query = 'SELECT id as userId, name as userName, role as userRole, date as userJoinedDate FROM usersCred FROM usersCred';
                 if(count != null) {
                     query += ` LIMIT ${count}`;
                     if(start != null) {
@@ -133,7 +133,7 @@ export class UserCredDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
-                let query = `SELECT * FROM usersCred WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
+                let query = `SELECT id as userId, name as userName, role as userRole, date as userJoinedDate FROM usersCred WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
 
                 for(let i = 1; i< types.length; i++){
                     if(types[i] == 'LIKE') values[i] = `%${values[i]}%`;
@@ -178,7 +178,7 @@ export class ProjectsDbService {
     async getAllProjectsDetails(start, count){ 
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = "SELECT * FROM projectsDetails";
+                let query = "SELECT id as projectId, title, description, status, admin as creator, createdDate FROM projectsDetails";
                 if(count != null) {
                     query += ` LIMIT ${count}`;
                     if(start != null) {
@@ -257,7 +257,8 @@ export class ProjectsDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 const query = `DELETE FROM projectsDetails WHERE id = ?;
-                               DELETE FROM projectsAndUsers WHERE projectId = ?;`
+                               DELETE FROM projectsAndUsers WHERE projectId = ?;
+                               DELETE FROM tasks WHERE projectId = ?;`
 
                 connection.query(query, [projectId, projectId], (err, res) => {
                     if(err) reject(new Error(err.message));
@@ -279,7 +280,7 @@ export class ProjectsDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
-                let query = `SELECT * FROM projectsDetails WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
+                let query = `SELECT id as projectId, title, description, status, admin as creator, createdDate FROM projectsDetails WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
 
                 for(let i = 1; i< types.length; i++){
                     if(types[i] == 'LIKE') values[i] = `%${values[i]}%`;
@@ -357,7 +358,7 @@ export class TasksDbService {
     async getAllTasks(start, count){ 
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = "SELECT * FROM tasks;";
+                let query = "SELECT id as taskId, projectId, userId, userAssignedId, title, description, status, createdDate FROM tasks;";
                 if(count != null) {
                     query += ` LIMIT ${count}`;
                     if(start != null) {
@@ -455,7 +456,7 @@ export class TasksDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
-                let query = `SELECT * FROM tasks WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
+                let query = `SELECT id as taskId, projectId, userId, userAssignedId, title, description, status, createdDate FROM tasks WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
 
                 for(let i = 1; i< types.length; i++){
                     if(types[i] == 'LIKE') values[i] = `%${values[i]}%`;
@@ -492,7 +493,7 @@ export class TasksDbService {
     async getUserTasks(userId, start, count){
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = 'SELECT * FROM tasks WHERE userId = ?';
+                const query = 'SELECT id as taskId, projectId, userId, userAssignedId, title, description, status, createdDate FROM tasks WHERE userId = ?';
 
                 if(count != null) {
                     query += ` LIMIT ${count}`;
