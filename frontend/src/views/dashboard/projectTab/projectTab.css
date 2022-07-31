@@ -1,0 +1,16 @@
+div.project-main {
+    margin-left: 100px;
+}
+
+div.tasks {
+    display: flex;
+}
+
+div.task {
+    background-color: blueviolet;
+}
+
+div.done, div.in-progress, div.to-be-done {
+    display: flex;
+    flex: 0.33;
+}

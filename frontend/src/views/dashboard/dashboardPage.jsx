@@ -8,7 +8,7 @@ import './dashboardPage.css';
 
 const DashboardPage = () => {
 
-    const [view, setView] = useState('');
+    const [view, setView] = useState('my-projects');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -38,6 +38,11 @@ const DashboardPage = () => {
 
     return (
         <div className='dashboard'>
+
+            <div className='main-view'>
+                {optView()}
+            </div>
+
             <div className='sidebar'>
                 {/* select view divs */}
                 <div className='sidebar-app-logo' id='app-logo'>
@@ -72,9 +77,6 @@ const DashboardPage = () => {
                     <span className='sidebar-ops-icon'>L</span>
                     <span className='sidebar-ops'>Logout</span>
                 </div>
-            </div>
-            <div className='main-view'>
-                {optView()}
             </div>
             {/* <button type='submit' onClick={onButton}>LogOut</button> */}
         </div>

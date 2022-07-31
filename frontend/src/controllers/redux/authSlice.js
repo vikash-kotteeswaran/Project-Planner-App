@@ -44,10 +44,12 @@ const authSlice = createSlice({
             state.authorized = false;
             state.failure = false;
             state.signedUp = false;
+            state.userId = null;
         },
 
         guestLogIn: (state) => {
             state.authorized = true;
+            state.userId = 1;
         },
 
         failure_span: (state, action) => {

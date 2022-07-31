@@ -36,7 +36,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if(auth.authorized) dispatch(logIn());
-        if(auth.loggedIn) navigate('/dashboard');
+        if(auth.loggedIn) navigate('/myProjects');
     }, [auth.loggedIn, auth.authorized, dispatch, navigate]);
 
     return(

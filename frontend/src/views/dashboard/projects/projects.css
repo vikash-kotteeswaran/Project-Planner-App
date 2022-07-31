@@ -1,0 +1,10 @@
+div.main-div {
+    height: 100vh;
+}
+
+div.projects-main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 100px; 
+}

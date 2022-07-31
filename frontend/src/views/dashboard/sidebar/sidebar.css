@@ -1,8 +1,3 @@
-
-div.dashboard {
-    height: 100vh;
-}
-
 div.sidebar {
     position: absolute;
     height: 100vh;
@@ -10,6 +5,7 @@ div.sidebar {
     flex-direction: column;
     background-color: rgba(128, 128, 128, 0.7);
     border-right: rgba(128, 128, 128) solid 1px;
+    box-shadow: 2px 1px 10px 1px gray;
     -webkit-transition: width 0.7s ease-in-out;
     -moz-transition: width 0.7s ease-in-out;
     -o-transition: width 0.7s ease-in-out;
@@ -22,7 +18,7 @@ div.sidebar {
     align-items: center;
     height: 150px;
     font-size: 16pt;
-    background-color:aliceblue;
+    background-color:rgba(240, 248, 255, 0.7);
     white-space: nowrap;
     cursor: default;
 }
@@ -47,13 +43,6 @@ div.sidebar:hover .sidebar-ops-icon{
 
 div.sidebar:hover {
     width: 200px;
-}
-
-div.main-view {
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-    background-color: beige;
 }
 
 div.sidebar-view-ops {

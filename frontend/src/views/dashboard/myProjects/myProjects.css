@@ -1,11 +1,12 @@
-div.my-projects-view {
-    flex: 1;
+div.main-div {
+    height: 100vh;
 }
 
-div.projects-main-div {
+div.my-projects-main {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-left: 100px; 
 }
 
 div.project-card {
@@ -15,4 +16,8 @@ div.project-card {
     padding: 10px;
     max-width: 50%;
     background-color: blanchedalmond;
+}
+
+div.project-title {
+    font-weight: bold;
 }
