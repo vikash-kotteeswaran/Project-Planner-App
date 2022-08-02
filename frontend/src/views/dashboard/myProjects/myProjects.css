@@ -1,23 +1,163 @@
 div.main-div {
     height: 100vh;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 div.my-projects-main {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     margin-left: 100px; 
 }
 
+div.new-project {
+    display: flex;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+form.new-project-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 800px;
+    height: 600px;
+    padding: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+}
+
+div.cancel-adding-project {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+input.project-title {
+    margin: 20px;
+}
+
+textarea.project-description {
+    border: solid 1pt black;
+    height: 200px;
+    margin: 20px;
+    text-align: start;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+select.project-status {
+    margin: 20px;
+    width: 110px;
+}
+
+select.project-status::before {
+    content: 'Status';
+}
+
+button.submit-project-details {
+    margin: 20px;
+    width: 100px;
+}
+
+div.my-projects-header {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: baseline;
+}
+
+div.my-projects-header > h1 {
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    margin-left: 20px;
+}
+
+div.my-projects-header > div.add-project {
+    font-size: 20pt;
+    margin: 20px;
+    margin-left: 20px;
+    margin-right: 50px;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.07);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+    padding: 10px 25px;
+    border-radius: 30px;
+}
+
+div.my-projects-header > div.add-project:hover {
+    background-color: rgba(0, 0, 0, 0.13);
+}
+
+div.my-projects-header > div.add-project:active {
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
+div.no-project-exists {
+    margin: 20px;
+    font-size: 14pt;
+    font-weight: thin;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+div.projects {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
 div.project-card {
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 0.5px;
-    margin: 10px;
-    padding: 10px;
-    max-width: 50%;
-    background-color: blanchedalmond;
+    border-radius: 70px;
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    padding: 40px;
+    width: 325px;
+    height: 325px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+div.project-card:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+div.project-card:active {
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
 }
 
 div.project-title {
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: 20pt;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+div.project-desc {
+    text-align: justify;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+div.project-admin {
+    margin-top: 20px;
+    /* margin-left: 10px; */
+    text-align: left;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+div.project-admin:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
+span.read-more {
+    color: rgba(0, 0, 0, 0.6);
+    margin-left: 2px;
 }

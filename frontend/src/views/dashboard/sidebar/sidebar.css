@@ -18,9 +18,14 @@ div.sidebar {
     align-items: center;
     height: 150px;
     font-size: 16pt;
-    background-color:rgba(240, 248, 255, 0.7);
+    background: linear-gradient(rgba(255, 255, 255), rgba(255, 255, 255), rgba(255, 255, 255), rgba(255, 255, 255),
+    rgba(255, 255, 255), rgba(255, 255, 255), rgba(128, 128, 128, 0.02));
     white-space: nowrap;
     cursor: default;
+}
+
+#app-logo > .sidebar-ops {
+    font-weight: bold;
 }
 
 div.sidebar:hover .sidebar-ops{
@@ -75,7 +80,7 @@ div.sidebar-view-ops:hover {
         width: auto;
         opacity: 1;
     }
-    75%{
+    98%{
         width: 0px;
         opacity: 0;
     }

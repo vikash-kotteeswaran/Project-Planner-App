@@ -27,6 +27,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         userId: null,
+        userName: null,
         loggedIn: false,
         authorized: false,
         failure: false,
@@ -50,6 +51,7 @@ const authSlice = createSlice({
         guestLogIn: (state) => {
             state.authorized = true;
             state.userId = 1;
+            state.userName = 'vikash';
         },
 
         failure_span: (state, action) => {
@@ -67,6 +69,7 @@ const authSlice = createSlice({
             }
 
             state.userId = action.payload.success.data[0].userId;
+            state.userName = action.payload.success.data[0].userName;
 
             console.log("Authenticated.", action.payload, state.userId);
         },

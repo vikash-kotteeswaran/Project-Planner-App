@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserProjects, getProjectTasks } from '../../../controllers/redux/myProjectSlice';
+import { getUserProjects, getProjectTasks, addNewProject } from '../../../controllers/redux/myProjectSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Sidebar from '../sidebar/sidebar';
@@ -10,33 +10,39 @@ import './myProjects.css';
 const MyProjects = () => {
 
     const userId = useSelector(state => state.auth.userId);
+    const userName = useSelector(state => state.auth.userName);
     const myProject = useSelector(state => state.myProject);
 
     const [projectId, setProjectId] = useState('^');
+    const [newProjectWindow, setNewProjectWindow] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
         if(myProject.projects.length == 0) dispatch(getUserProjects({userId: userId}));
-    }, [userId, dispatch]);
+    }, [userId, myProject.projectsChanged, dispatch]);
 
     const projects = myProject.projects;
 
     const wordLimiter = (paragraph) => {
         // Colour of readmore should be gray... look onto that
         const windowLimit = 150;
-        if(paragraph.length > windowLimit) return paragraph.slice(0, windowLimit) + '... read more';
-        else return paragraph;
+        if(paragraph.length > windowLimit) return <span>{paragraph.slice(0, windowLimit).trim()}<span className='read-more'>... readmore</span></span>;
+        else return <span>paragraph</span>;
     }
 
     const onProjectClick = (event) => {
         setProjectId(event.currentTarget.id);
     }
 
+    const openNewProject = () => {
+        setNewProjectWindow(true);
+    }
+
     useEffect(() => {
         // console.log('projectId', projectId);
         if(projectId != '^') dispatch(getProjectTasks({projectId: projectId}));
-    }, [projectId, dispatch])
+    }, [projectId, myProject.taskChange, dispatch])
 
     useEffect(() => {
         const project = projects.filter(project => project.projectId == projectId)[0];
@@ -51,7 +57,7 @@ const MyProjects = () => {
 
         if(projects[0] == null){
             mainDiv.push(
-                <div className='no-project-exists'><span>no projects are currently here</span></div>
+                <div className='no-project-exists'><span>No projects are currently here</span></div>
             );
         }
         
@@ -59,15 +65,18 @@ const MyProjects = () => {
             mainDiv.push(
                 <div id={project.projectId} className='project-card' onClick={onProjectClick}>
                     <div className='project-title'>{project.title}</div>
-                    <div className='project-admin'>{project.creator}</div>
                     <div className='project-desc'>{wordLimiter(project.description)}</div>
+                    <div className='project-admin'>{project.projectRole}</div>
                 </div>
             );
         };
 
         return (
             <div className='my-projects-main'>
-                <h1>My Projects</h1>
+                <div className='my-projects-header'>
+                    <h1>My Projects</h1>
+                    <div className='add-project' onClick={openNewProject}><i className="fa fa-plus"></i></div>
+                </div>
                 <div className='projects'>
                     {mainDiv}
                 </div>
@@ -75,8 +84,67 @@ const MyProjects = () => {
         );
     };
 
+    const [newProjectInput, setNewProjectInput] = useState({
+        title: '',
+        description: '',
+        status: '',
+        userId: userId,
+        admin: userName
+    })
+
+    const newProject = () => {
+
+        const handleStatusChange = (event) => {
+            setNewProjectInput({
+                ... newProjectInput,
+                status: event.target.value
+            })
+            event.preventDefault();
+        }
+
+        const handleTitleChange = (event) =>{
+            setNewProjectInput({
+                ... newProjectInput,
+                title: event.target.value
+            })
+            event.preventDefault();
+        }
+
+        const handleDescChange = (event) =>{
+            setNewProjectInput({
+                ... newProjectInput,
+                description: event.target.value
+            })
+            event.preventDefault();
+        }
+
+        const OnNewProjectSubmit = async (event) => {
+            // https://stackoverflow.com/questions/37146302/event-preventdefault-in-async-functions
+            event.preventDefault();
+            await dispatch(addNewProject(newProjectInput));
+            setNewProjectWindow(false);
+        }
+
+        return (
+            <div className='new-project'>
+                <form className='new-project-form'>
+                    <div className='cancel-adding-project' onClick={() => setNewProjectWindow(false)}><i className='fa fa-times'></i></div>
+                    <input name='title' className='project-title' onChange={handleTitleChange}></input>
+                    <textarea name='description' className='project-description' onChange={handleDescChange}></textarea>
+                    <select name="status" className='project-status' value={newProjectInput.status} onChange={handleStatusChange}>
+                        <option className='in-progress-option' value='In progress'>In Progress</option>
+                        <option className='to-be-done-option' value='To be done'>To Be Done</option>
+                    </select>
+
+                    <button className='submit-project-details' type='submit' onClick={OnNewProjectSubmit}>Submit</button>
+                </form>
+            </div>
+        );
+    }
+
     return(
         <div className='main-div'>
+            {newProjectWindow? newProject() : <></>}
             <Sidebar currentView={'my-projects'}/>
             {projectDivs()}
         </div>

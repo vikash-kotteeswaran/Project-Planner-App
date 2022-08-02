@@ -13,6 +13,28 @@ export const getProjectTasks = createAsyncThunk('myProject/getProjectTasks', asy
     const response = await fetch(`https://api-projectplanner.herokuapp.com/api/searchTasks?types==&natures=AND&fields=projectId&values=${projectId}`);
     const data =  response.json();
 
+    console.log(data);
+
+    return data
+})
+
+export const addNewProject = createAsyncThunk('myProject/addNewProject', async (payload) => {
+    const response = await fetch('https://api-projectplanner.herokuapp.com/api/addProjectsDetails', {
+        'headers':{
+            'content-type': 'application/json'
+        },
+        'method':'POST',
+        'body': JSON.stringify({
+            'title': payload.title,
+            'description': payload.description,
+            'admin': payload.admin,
+            'status': payload.status,
+            'userId': payload.userId
+        })
+    });
+
+    const data = response.json();
+
     return data
 })
 
@@ -21,8 +43,14 @@ const myProjectSlice = createSlice({
     initialState: {
         projects: [],
         tasks: [],
+        tasksChanged: false,
+        projectsChanged: false
     },
     reducers:{
+        userLoggingOut: (state) => {
+            state.projects = [];
+            state.tasks = [];
+        }
     },
     extraReducers: {
         [getUserProjects.pending]: () => {console.log('getting user projects...')},
@@ -38,10 +66,19 @@ const myProjectSlice = createSlice({
             const data = action.payload;
             state.tasks = data.success.data;
             console.log('project tasks obtained', state.tasks);
+        },
+
+        [addNewProject.pending]: () => {console.log('adding new project...')},
+        [addNewProject.fulfilled]: (state, action) => {
+            console.log(action);
+            if(action.payload.success.affectedRows == 1){
+                console.log('new project added.');
+                state.projectsChanged = !state.projectsChanged;
+            }
         }
     }
 })
 
 export default myProjectSlice.reducer;
 
-// export const {clickedOnProject, clickedOnTask, goBackProject, goBackTask} = myProjectSlice.actions;
+export const {userLoggingOut} = myProjectSlice.actions;

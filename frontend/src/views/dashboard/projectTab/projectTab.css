@@ -1,16 +1,145 @@
 div.project-main {
     margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+div.project-overview {
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 40px;
+    margin-left: 10px;
+    padding: 30px;
+    text-align: justify;
+    border-radius: 20px;
+}
+
+div.project-overview-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+div.project-overview-header > div.project-title {
+    text-align: left;
+    font-size: 25pt;
+    font-weight: bolder;
+    margin-left: 17px;
+}
+
+div.project-overview-header > div.add-project {
+    font-size: 20pt;
+    margin: 20px;
+    margin-right: 20px;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+    padding: 1px 15px;
+    border-radius: 30px;
+}
+
+div.project-overview-header > div.add-project:hover {
+    background-color: rgba(0, 0, 0, 0.13);
+}
+
+div.project-overview-header > div.add-project:active {
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
+div.project-contribs {
+    display: flex;
+    align-items: baseline;
+
+}
+
+div.project-contribs > div.project-admin, div.project-members {
+    margin: 5px 20px;
+    margin-right: 40px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: rgba(255, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+div.project-members {
+    background-color: rgba(0, 255, 0, 0.2);
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+}
+
+div.project-contribs > div.project-admin:hover {
+    background-color: rgba(255, 0, 0, 0.6);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
+div.project-members:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
+div.project-description {
+    margin: 20px;
 }
 
 div.tasks {
     display: flex;
+    margin: 40px;
+    margin-top: 10px;
+    margin-left: 10px;
+    /* background-color: antiquewhite; */
+}
+
+div.done, div.in-progress, div.to-be-done {
+    display: flex;
+    flex-direction: column;
 }
 
 div.task {
-    background-color: blueviolet;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    padding-left: 20px;
+    width: 280px;
+    font-size: 13pt;
+    text-align: justify;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+div.task:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+div.task:active {
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.5);
+}
+
+div.to-be-done-list > div.task {
+    color: rgba(0, 0, 255, 0.4);
+}
+
+div.done-list > div.task {
+    color: rgba(255, 0, 0, 0.4);
+}
+
+div.in-progress-list > div.task {
+    color: rgb(14, 167, 14);
 }
 
 div.done, div.in-progress, div.to-be-done {
     display: flex;
     flex: 0.33;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin: 10px;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+div.done-header, div.in-progress-header, div.to-be-done-header {
+    margin: 10px;
+    margin-bottom: 20px;
+    font-size: 14pt;
+    font-weight: bold;
 }

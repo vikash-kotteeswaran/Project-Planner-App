@@ -1,6 +1,5 @@
 import './App.css';
 import LoginPage from './views/login/loginPage';
-import DashboardPage from './views/dashboard/dashboardPage';
 import SignUpPage from './views/signup/signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -19,9 +18,9 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route exact path='/' element={auth.loggedIn ? <Navigate to='/dashboard' /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/' element={auth.loggedIn ? <Navigate to='/myProjects' /> : <Navigate to='/login' />}></Route>
           <Route exact path='/login' element={<LoginPage />}></Route>
-          <Route exact path='/dashboard' element={auth.loggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route>
+          {/* <Route exact path='/dashboard' element={auth.loggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route> */}
           <Route exact path='/myProjects' element={auth.loggedIn ? <MyProjects /> : <Navigate to='/login' />}></Route>
           <Route exact path='/otherProjects' element={auth.loggedIn ? <Projects /> : <Navigate to='/login' />}></Route>
           <Route exact path='/otherTasks' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
