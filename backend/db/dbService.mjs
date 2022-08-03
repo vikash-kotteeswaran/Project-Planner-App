@@ -511,7 +511,7 @@ export class TasksDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
-                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId, usersCred.name, tasks.userAssignedId, 
+                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId as creatorUserId, usersCred.name as creatorName, tasks.userAssignedId, 
                              secondJoin.name as userAssignedName, tasks.title, tasks.description, tasks.status, tasks.createdDate 
                              FROM tasks JOIN usersCred ON tasks.userId = usersCred.id 
                              LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id WHERE tasks.${fields[0]} ${types[0]} '${values[0]}'`;
@@ -554,7 +554,7 @@ export class TasksDbService {
             if(type.toLowerCase() =='assigned') fieldChange = 'Assigned';
 
             const resp = await new Promise((resolve, reject) => {
-                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId, usersCred.name, tasks.userAssignedId, 
+                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId as creatorUserId, usersCred.name as creatorName, tasks.userAssignedId, 
                                secondJoin.name as userAssignedName, tasks.title, tasks.description, tasks.status, tasks.createdDate 
                                FROM tasks JOIN usersCred ON tasks.userId = usersCred.id 
                                LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id WHERE tasks.user${fieldChange}Id = ?`;
