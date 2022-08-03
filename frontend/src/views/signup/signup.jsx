@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUp, addUser } from '../../controllers/redux/authSlice';
-import { useNavigate, Link } from 'react-router-dom';
+import { addUser } from '../../controllers/redux/authSlice';
+import { Link } from 'react-router-dom';
 import './signup.css';
 
 const SignUpPage = () => {
@@ -40,12 +40,6 @@ const SignUpPage = () => {
         event.preventDefault();
         if(verifyInput.num1 + verifyInput.num2 == verifyInput.verify){
             dispatch(addUser(formInput));
-        }
-    }
-
-    const handleKeyPress = (event) => {
-        if(event.key == 'enter'){
-            onSubmit(event);
         }
     }
 

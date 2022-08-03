@@ -1,6 +1,7 @@
 div.main-div {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.05);
+    overflow-y: scroll;
 }
 
 div.my-projects-main {
@@ -9,6 +10,8 @@ div.my-projects-main {
     flex-direction: column;
     margin-left: 100px; 
 }
+
+/* Add project pop up */
 
 div.new-project {
     display: flex;
@@ -38,31 +41,80 @@ div.cancel-adding-project {
     font-weight: bold;
 }
 
-input.project-title {
+input.new-project-title {
     margin: 20px;
+    padding: 15px;
 }
 
-textarea.project-description {
+.title-error {
+    border-color: rgba(205, 0, 0, 1);
+    color: rgba(205, 0, 0, 1);
+}
+
+.title-error::placeholder {
+    color: rgba(205, 0, 0, 1);
+}
+
+textarea.new-project-description {
     border: solid 1pt black;
     height: 200px;
     margin: 20px;
     text-align: start;
     background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border: none;
 }
 
-select.project-status {
+div.new-project-status-selector {
+    margin-left: 35px;
+    width: fit-content;
+}
+
+span.new-project-status-selector-span {
+    font-size: 13pt;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+span.status-error {
+    color: rgba(205, 0, 0, 1);
+}
+
+select.new-project-status {
     margin: 20px;
-    width: 110px;
+    margin-top: 10px;
+    padding: 5px 5px;
+    width: 115px;
+    border: none;
 }
 
-select.project-status::before {
-    content: 'Status';
+select.status-error {
+    border: solid 1pt rgba(205, 0, 0, 1); 
 }
 
 button.submit-project-details {
-    margin: 20px;
+    margin: auto;
     width: 100px;
+    padding: 5px;
+    font-size: 13pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 0.7);
+    border: solid 2pt rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
 }
+
+button.submit-project-details:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* color: rgba(255, 255, 255, 0.5); */
+}
+
+button.submit-project-details:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* color: rgba(255, 255, 255, 0.5); */
+}
+
+/*  */
 
 div.my-projects-header {
     display: flex;
@@ -148,7 +200,8 @@ div.project-admin {
     padding: 5px 10px;
     border-radius: 10px;
     width: fit-content;
-    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(155, 0, 0, 0.8);
     box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
 }
 

@@ -15,7 +15,10 @@ const TaskTab = () => {
             <div className='task-main'>
                 <div className='task-overview'>
                     <div className='task-title'><span>{task.title}</span></div>
-                    <div className='task-creator'><span>{task.creator}</span></div>
+                    <div className='task-contribs'>
+                        <div className='task-admin'><span>{task.creatorName}</span></div>
+                        {task.userAssignedName? <div className='task-assigned-to'><span>{task.userAssignedName}</span></div> : <></>}
+                    </div>
                     <div className='task-description'><span>{task.description}</span></div>
                 </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserProjects, getProjectTasks, addNewProject } from '../../../controllers/redux/myProjectSlice';
+import { getUserProjects, getProjectTasks, addNewProject, getProjectMembers } from '../../../controllers/redux/myProjectSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Sidebar from '../sidebar/sidebar';
@@ -28,7 +28,7 @@ const MyProjects = () => {
         // Colour of readmore should be gray... look onto that
         const windowLimit = 150;
         if(paragraph.length > windowLimit) return <span>{paragraph.slice(0, windowLimit).trim()}<span className='read-more'>... readmore</span></span>;
-        else return <span>paragraph</span>;
+        else return <span>{paragraph}</span>;
     }
 
     const onProjectClick = (event) => {
@@ -41,15 +41,18 @@ const MyProjects = () => {
 
     useEffect(() => {
         // console.log('projectId', projectId);
-        if(projectId != '^') dispatch(getProjectTasks({projectId: projectId}));
+        if(projectId != '^') {
+            dispatch(getProjectTasks({projectId: projectId}));
+            dispatch(getProjectMembers({projectId: projectId}));
+        }
     }, [projectId, myProject.taskChange, dispatch])
 
     useEffect(() => {
         const project = projects.filter(project => project.projectId == projectId)[0];
         const tasks = myProject.tasks;
-        const members = [];
+        const members = myProject.members;
 
-        if(projectId != '^') navigate(`/project/${projectId}`, {state: {project: project, tasks: tasks, members: members}});
+        if(projectId != '^') navigate(`/project/${projectId}`, {state: {project: project, tasks: tasks, members: members, userId: userId}});
     }, [myProject.tasks, navigate])
 
     const projectDivs = () => {
@@ -66,7 +69,7 @@ const MyProjects = () => {
                 <div id={project.projectId} className='project-card' onClick={onProjectClick}>
                     <div className='project-title'>{project.title}</div>
                     <div className='project-desc'>{wordLimiter(project.description)}</div>
-                    <div className='project-admin'>{project.projectRole}</div>
+                    <div className='project-admin'>{project.creator}</div>
                 </div>
             );
         };
@@ -87,7 +90,7 @@ const MyProjects = () => {
     const [newProjectInput, setNewProjectInput] = useState({
         title: '',
         description: '',
-        status: '',
+        status: 'None',
         userId: userId,
         admin: userName
     })
@@ -121,26 +124,60 @@ const MyProjects = () => {
         const OnNewProjectSubmit = async (event) => {
             // https://stackoverflow.com/questions/37146302/event-preventdefault-in-async-functions
             event.preventDefault();
-            await dispatch(addNewProject(newProjectInput));
-            setNewProjectWindow(false);
+            let add = true;
+            if(newProjectInput.title.length < 5 ) {
+                add = false;
+                const titleError = ' title-error'
+                document.querySelector('input.new-project-title').className += titleError;
+                console.log(document.querySelector('input.new-project-title').className);
+
+                setTimeout(() => {
+                    document.querySelector('input.new-project-title').className = 'new-project-title';
+                    console.log(document.querySelector('input.new-project-title').className);
+                }, 5000)
+            }
+
+            if(newProjectInput.status == 'None'){
+                add = false;
+                const statusError = ' status-error'
+                document.querySelector('span.status-selector-span').className += statusError;
+                document.querySelector('select.new-project-status').className += statusError;
+                console.log(document.querySelector('span.new-project-status-selector-span').className);
+
+                setTimeout(() => {
+                    document.querySelector('span.project-status-selector-span').className = 'project-status-selector-span';
+                    document.querySelector('select.new-project-status').className = 'new-project-status';
+                    console.log(document.querySelector('span.project-status-selector-span').className);
+                }, 5000)
+            }
+
+            if(add) {
+                await dispatch(addNewProject(newProjectInput));
+                setNewProjectWindow(false);
+            }
         }
 
         return (
             <div className='new-project'>
                 <form className='new-project-form'>
                     <div className='cancel-adding-project' onClick={() => setNewProjectWindow(false)}><i className='fa fa-times'></i></div>
-                    <input name='title' className='project-title' onChange={handleTitleChange}></input>
-                    <textarea name='description' className='project-description' onChange={handleDescChange}></textarea>
-                    <select name="status" className='project-status' value={newProjectInput.status} onChange={handleStatusChange}>
-                        <option className='in-progress-option' value='In progress'>In Progress</option>
-                        <option className='to-be-done-option' value='To be done'>To Be Done</option>
-                    </select>
+                    <input name='title' className='new-project-title' placeholder='Project Title' onChange={handleTitleChange}></input>
+                    <textarea name='description' className='new-project-description' placeholder='Project Description' onChange={handleDescChange}></textarea>
 
-                    <button className='submit-project-details' type='submit' onClick={OnNewProjectSubmit}>Submit</button>
+                    <div className='new-project-status-selector'>
+                        <span className='new-project-status-selector-span'>Project Status</span>
+                        <select name="status" className='new-project-status' value={newProjectInput.status} onChange={handleStatusChange}>
+                            <option className='in-progress-option' value='None'>None</option>
+                            <option className='in-progress-option' value='In progress'>In Progress</option>
+                            <option className='to-be-done-option' value='To be done'>To Be Done</option>
+                        </select>
+                    </div>
+
+                    <button className='submit-project-details' type='submit' onClick={OnNewProjectSubmit}>SUBMIT</button>
                 </form>
             </div>
         );
-    }
+    };
 
     return(
         <div className='main-div'>

@@ -4,6 +4,111 @@ div.project-main {
     flex-direction: column;
 }
 
+/* Add task pop up */
+
+div.new-task {
+    display: flex;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+form.new-task-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 800px;
+    height: 600px;
+    padding: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+}
+
+div.cancel-adding-task {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+input.new-task-title {
+    margin: 20px;
+    padding: 15px;
+}
+
+.task-title-error {
+    border-color: rgba(205, 0, 0, 1);
+    color: rgba(205, 0, 0, 1);
+}
+
+.task-title-error::placeholder {
+    color: rgba(205, 0, 0, 1);
+}
+
+textarea.new-task-description {
+    border: solid 1pt black;
+    height: 200px;
+    margin: 20px;
+    text-align: start;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border: none;
+}
+
+div.new-task-status-selector {
+    margin-left: 35px;
+    width: fit-content;
+}
+
+span.new-task-status-selector-span {
+    font-size: 13pt;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+span.status-error {
+    color: rgba(205, 0, 0, 1);
+}
+
+select.new-task-status {
+    margin: 20px;
+    margin-top: 10px;
+    padding: 5px 5px;
+    width: 115px;
+    border: none;
+}
+
+select.status-error {
+    border: solid 1pt rgba(205, 0, 0, 1); 
+}
+
+button.submit-task-details {
+    margin: auto;
+    width: 100px;
+    padding: 5px;
+    font-size: 13pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 0.7);
+    border: solid 2pt rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+button.submit-task-details:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* color: rgba(255, 255, 255, 0.5); */
+}
+
+button.submit-task-details:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* color: rgba(255, 255, 255, 0.5); */
+}
+
+/*  */
+
 div.project-overview {
     background-color: rgba(0, 0, 0, 0.1);
     margin: 40px;
@@ -26,7 +131,7 @@ div.project-overview-header > div.project-title {
     margin-left: 17px;
 }
 
-div.project-overview-header > div.add-project {
+div.project-overview-header > div.add-task {
     font-size: 20pt;
     margin: 20px;
     margin-right: 20px;
@@ -38,11 +143,11 @@ div.project-overview-header > div.add-project {
     border-radius: 30px;
 }
 
-div.project-overview-header > div.add-project:hover {
+div.project-overview-header > div.add-task:hover {
     background-color: rgba(0, 0, 0, 0.13);
 }
 
-div.project-overview-header > div.add-project:active {
+div.project-overview-header > div.add-task:active {
     box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
 }
 
@@ -97,10 +202,10 @@ div.done, div.in-progress, div.to-be-done {
 
 div.task {
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 30px;
     margin: 10px;
-    padding-left: 20px;
-    width: 280px;
+    margin-bottom: 20px;
+    width: fit-content;
     font-size: 13pt;
     text-align: justify;
     font-weight: bold;
