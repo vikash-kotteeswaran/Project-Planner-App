@@ -441,7 +441,7 @@ export class TasksDbService {
     async addTasks(userId, projectId, title, description, status) {
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO tasks (userId, projectId, title, description, status) VALUES (?, ?, ?, ?, ?)";
+                const query = "INSERT INTO tasks (userId, projectId, title, description, status) VALUES (?, ?, ?, ?, ?);";
 
                 connection.query(query, [userId, projectId, title, description, status], (err, res) => {
                     if(err) reject(new Error(err.message));
