@@ -14,6 +14,7 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE,
     password: process.env.PASSWORD,
     port: process.env.DB_PORT,
+    multipleStatements: true
 });
 
 setInterval(() => {connection.query('SELECT 1')}, 5000);
@@ -35,7 +36,7 @@ export class UserCredDbService {
     async getAllUserCred(start, count){ 
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = 'SELECT id as userId, name as userName, role as userRole, date as userJoinedDate FROM usersCred FROM usersCred';
+                let query = 'SELECT id as userId, name as userName, role as userRole, date as userJoinedDate FROM usersCred';
                 if(count != null) {
                     query += ` LIMIT ${count}`;
                     if(start != null) {
@@ -218,7 +219,12 @@ export class ProjectsDbService {
 
             console.log('server resp: ', resp);
 
-            return {'affectedRows': resp.affectedRows, 'insertId': resp.insertId};
+            return (
+                {
+                    'projectsDetails': {'affectedRows': resp[0].affectedRows, 'insertId': resp[0].insertId},
+                    'projectsAndUsers': {'affectedRows': resp[1].affectedRows, 'insertId': resp[1].insertId}
+                }
+            );
 
         } catch(err) {
             console.log(err);
@@ -268,7 +274,13 @@ export class ProjectsDbService {
 
             console.log('server resp: ', resp);
 
-            return {'changedRows': resp.changedRows, 'affectedRows': resp.affectedRows};
+            return (
+                {
+                    'projectsDetails': {'changedRows': resp[0].changedRows, 'affectedRows': resp[0].affectedRows},
+                    'projectsAndUsers' : {'changedRows': resp[1].changedRows, 'affectedRows': resp[1].affectedRows},
+                    'tasks': {'changedRows': resp[2].changedRows, 'affectedRows': resp[2].affectedRows}
+                }
+            );
 
         } catch(err){
             console.log(err);
@@ -319,7 +331,7 @@ export class ProjectsDbService {
             const resp = await new Promise((resolve, reject) => {
                 let query = `SELECT projectsDetails.id as projectId, projectsAndUsers.userId as userId, 
                 projectsAndUsers.projectRole as projectRole, projectsDetails.title as title, projectsDetails.description as description, 
-                projectsDetails.status as status, projectsDetails.createdDate as projectCreatedDate, 
+                projectsDetails.status as status, projectsDetails.admin as creator, projectsDetails.createdDate as projectCreatedDate, 
                 projectsAndUsers.dateJoinedProject as userDateJoined FROM projectsDetails INNER JOIN projectsAndUsers ON 
                 projectsDetails.id = projectsAndUsers.projectId WHERE projectsAndUsers.userId = ?`;
 
@@ -347,6 +359,46 @@ export class ProjectsDbService {
             console.log(err);
         }
     };
+
+    async getProjectMembers(projectId) {
+        try{
+            const resp = new Promise((resolve, reject) => {
+                const query = "SELECT usersCred.id as userId, usersCred.name as userName, projectsAndUsers.projectRole as projectRole FROM usersCred JOIN projectsAndUsers ON projectsAndUsers.userId = usersCred.id WHERE projectsAndUsers.projectId = ? AND projectsAndUsers.projectRole != 'admin'";
+
+                connection.query(query, [projectId], (err, res) => {
+                    if(err) reject(new Error(err))
+                    else resolve(res)
+                });
+            });
+
+            console.log('server resp: ', resp);
+
+            return resp;
+            
+        } catch(err) {
+            console.log(err);
+        }
+    };
+
+    async addUserToProject(userId, projectId) {
+        try{
+            const resp = new Promise((resolve, reject) => {
+                const query = "INSERT INTO projectsAndUsers (userId, projectId, projectRole) VALUES (?, ?, 'member')";
+
+                connection.query(query, [userId, projectId], (err, res) => {
+                    if(err) reject(new Error(err))
+                    else resolve(res)
+                });
+            });
+
+            console.log('server resp: ', resp);
+
+            return {'affectedRows': resp.affectedRows, 'insertId': resp.insertId};
+        }
+        catch(err) {
+            console.log(err);
+        }
+    };
 };
 
 export class TasksDbService {
@@ -358,7 +410,10 @@ export class TasksDbService {
     async getAllTasks(start, count){ 
         try{
             const resp = await new Promise((resolve, reject) => {
-                let query = "SELECT id as taskId, projectId, userId, userAssignedId, title, description, status, createdDate FROM tasks;";
+                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId, usersCred.name, tasks.userAssignedId, 
+                             secondJoin.name as userAssignedName, tasks.title, tasks.description, tasks.status, tasks.createdDate 
+                             FROM tasks JOIN usersCred ON tasks.userId = usersCred.id 
+                             LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id;`;
                 if(count != null) {
                     query += ` LIMIT ${count}`;
                     if(start != null) {
@@ -456,7 +511,10 @@ export class TasksDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
-                let query = `SELECT id as taskId, projectId, userId, userAssignedId, title, description, status, createdDate FROM tasks WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
+                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId, usersCred.name, tasks.userAssignedId, 
+                             secondJoin.name as userAssignedName, tasks.title, tasks.description, tasks.status, tasks.createdDate 
+                             FROM tasks JOIN usersCred ON tasks.userId = usersCred.id 
+                             LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id WHERE tasks.${fields[0]} ${types[0]} '${values[0]}'`;
 
                 for(let i = 1; i< types.length; i++){
                     if(types[i] == 'LIKE') values[i] = `%${values[i]}%`;
@@ -490,10 +548,16 @@ export class TasksDbService {
         }
     }
 
-    async getUserTasks(userId, start, count){
+    async getUserTasks(userId, type, start, count){
         try{
+            let fieldChange = '';
+            if(type.toLowerCase() =='assigned') fieldChange = 'Assigned';
+
             const resp = await new Promise((resolve, reject) => {
-                const query = 'SELECT id as taskId, projectId, userId, userAssignedId, title, description, status, createdDate FROM tasks WHERE userId = ?';
+                let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId, usersCred.name, tasks.userAssignedId, 
+                               secondJoin.name as userAssignedName, tasks.title, tasks.description, tasks.status, tasks.createdDate 
+                               FROM tasks JOIN usersCred ON tasks.userId = usersCred.id 
+                               LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id WHERE tasks.user${fieldChange}Id = ?`;
 
                 if(count != null) {
                     query += ` LIMIT ${count}`;

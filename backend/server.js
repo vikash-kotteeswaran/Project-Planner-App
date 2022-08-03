@@ -174,6 +174,29 @@ app.get('/api/getUserProjectsDetails', (req, res) => {
     .catch(err => console.log(err));
 })
 
+app.get('/api/getProjectMembers', (req, res) => {
+    const projectId = req.query.projectId;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.getProjectMembers(projectId);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
+app.post('/api/addUserToProject', (req, res) => {
+    const userId = req.body.userId;
+    const projectId = req.body.projectId;
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result = DbInstance.addUserToProject(userId, projectId);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+})
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ProjectsDetails Access
 
@@ -245,9 +268,10 @@ app.get('/api/getUserTasks', (req, res) => {
     const start = req.query.start;
     const count = req.query.count;
     const userId = req.query.userId;
+    const type = req.query.type;
 
     const DbInstance = TasksDbService.getInstance();
-    const result = DbInstance.getUserTasks(userId, start, count);
+    const result = DbInstance.getUserTasks(userId, type, start, count);
 
     result
     .then(data => res.json({'success': {'data': data}}))
