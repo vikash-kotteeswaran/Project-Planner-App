@@ -262,9 +262,11 @@ export class ProjectsDbService {
     async deleteProjectsDetails(projectId){
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = `DELETE FROM projectsDetails WHERE id = ?;
+                const query = `SET FOREIGN_KEY_CHECKS = 0;
+                               DELETE FROM projectsDetails WHERE id = ?;
                                DELETE FROM projectsAndUsers WHERE projectId = ?;
-                               DELETE FROM tasks WHERE projectId = ?;`
+                               DELETE FROM tasks WHERE projectId = ?;
+                               SET FOREIGN_KEY_CHECKS = 1;`
 
                 connection.query(query, [projectId, projectId, projectId], (err, res) => {
                     if(err) reject(new Error(err.message));
