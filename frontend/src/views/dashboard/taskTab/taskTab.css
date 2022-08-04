@@ -4,6 +4,70 @@ div.task-main {
     flex-direction: column;
 }
 
+/* delete project pop up */
+
+div.confirm-delete-task {
+    display: flex;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+div.confirm-delete-task-box {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+}
+
+div.confirm-delete-task-box > span {
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+div.confirmation-on-delete-task {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+button.delete-task-for-sure, button.cancel-delete-task {
+    margin: auto;
+    width: 100px;
+    padding: 5px;
+    font-size: 13pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 0.7);
+    border: solid 2pt rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+button.delete-task-for-sure:hover {
+    background-color: rgba(185, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+button.cancel-delete-task:hover {
+    background-color: rgba(0, 185, 0, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+button.delete-task-for-sure:active, button.cancel-delete-task:active {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
+}
+
+/*  */
+
 div.task-overview {
     background-color: rgba(0, 0, 0, 0.1);
     margin: 40px;
@@ -18,6 +82,25 @@ div.task-overview > div.task-title {
     font-size: 25pt;
     font-weight: bolder;
     margin-left: 17px;
+    display: flex;
+    align-items: baseline;
+}
+
+div.task-title > div.delete-task {
+    display: flex;
+    margin-left: 50px;
+    width: 1px;
+    height: 1px;
+    align-items: center;
+    justify-content: center;
+}
+
+div.task-title > div.delete-task:hover {
+    box-shadow: 0px 0px 20px 20px rgba(0, 0, 0, 0.3);
+}
+
+div.task-title > div.delete-task:active {
+    transform: scale(1.15);
 }
 
 div.task-contribs {

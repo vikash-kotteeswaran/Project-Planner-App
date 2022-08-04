@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../../controllers/redux/authSlice';
-import { userLoggingOut } from '../../../controllers/redux/myProjectSlice';
+import { eraseStates } from '../../../controllers/redux/myProjectSlice';
 import './sidebar.css'
 
 
@@ -15,10 +15,10 @@ const Sidebar = ({currentView}) => {
     const navigate = useNavigate();
 
     const onButton = (event) => {
-        dispatch(userLoggingOut());
+        dispatch(eraseStates());
         dispatch(logOut());
         event.preventDefault();
-        navigate('/login')
+        navigate('/login');
     }
 
     const optView = () => {

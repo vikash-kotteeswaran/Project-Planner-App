@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addNewTask } from '../../../controllers/redux/myProjectSlice';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewTask, getProjectMembers, getProjectTasks, deleteProject } from '../../../controllers/redux/myProjectSlice';
 import Sidebar from '../sidebar/sidebar';
 import './projectTab.css';
 
@@ -13,27 +13,27 @@ const ProjectTab = () => {
     const dispatch = useDispatch();
 
     const {state} = useLocation();
-    const {project, tasks, members, userId} = state;
+    const {project, userId} = state;
+    const myProject = useSelector(state => state.myProject);
+
+    useEffect(() => {
+        dispatch(getProjectTasks({projectId: project.projectId}));
+        dispatch(getProjectMembers({projectId: project.projectId}));
+    }, [dispatch]);
 
     const [newTaskWindow, setNewTaskWindow] = useState(false);
-
-    // const wordLimiter = (paragraph) => {
-    //     // Colour of readmore should be gray... look onto that
-    //     const windowLimit = 30;
-    //     if(paragraph.length > windowLimit) return paragraph.slice(0, windowLimit) + '... read more';
-    //     else return paragraph;
-    // }
+    const [deleteProjectWindow, setDeleteProjectWindow] = useState(false);
 
     const onTaskClick = (event) => {
         const taskId = event.currentTarget.id;
         console.log('taskId', taskId);
 
-        const task = tasks.filter(task => task.taskId == taskId)[0];
+        const task = myProject.tasks.filter(task => task.taskId == taskId)[0];
 
-        navigate(`/task/${taskId}`, {state: {task: task}});
+        navigate(`/task/${taskId}`, {state: {task: task, projectRole: project.projectRole}});
     }
 
-    const tasksView = () => {
+    const tasksView = (tasks) => {
         const done = [];
         const inProgress = [];
         const toBeDone = [];
@@ -44,9 +44,6 @@ const ProjectTab = () => {
                     done.push(
                         <div id={task.taskId} className='task' onClick={onTaskClick}>
                             <div className='task-title'><span>{task.title}</span></div>
-                            {/* <div className='task-creator'><span>{task.creator}</span></div>
-                            <div className='task-assigned-to'><span>{task.userAssigned}</span></div>
-                            <div className='task-description'><span>{wordLimiter(task.description)}</span></div> */}
                         </div>
                     );
                     break;
@@ -55,9 +52,6 @@ const ProjectTab = () => {
                     inProgress.push(
                         <div id={task.taskId} className='task' onClick={onTaskClick}>
                             <div className='task-title'><span>{task.title}</span></div>
-                            {/* <div className='task-creator'><span>{task.creator}</span></div>
-                            <div className='task-assigned-to'><span>{task.userAssigned}</span></div>
-                            <div className='task-description'><span>{wordLimiter(task.description)}</span></div> */}
                         </div>
                     )
                     break;
@@ -66,9 +60,6 @@ const ProjectTab = () => {
                     toBeDone.push(
                         <div id={task.taskId} className='task' onClick={onTaskClick}>
                             <div className='task-title'><span>{task.title}</span></div>
-                            {/* <div className='task-creator'><span>Created by </span><span className='task-creator-span'>{task.userId}</span></div>
-                            <div className='task-assigned-to'><span>Assigned to </span><span className='task-assigned-to-span'>{task.userAssignedId}</span></div>
-                            <div className='task-description'><span>{wordLimiter(task.description)}</span></div> */}
                         </div>
                     )
                     break;
@@ -163,6 +154,7 @@ const ProjectTab = () => {
             if(add) {
                 await dispatch(addNewTask(newTaskInput));
                 setNewTaskWindow(false);
+                window.location.reload();
             }
         }
 
@@ -188,28 +180,56 @@ const ProjectTab = () => {
         );
     };
 
+    const confirmDeleteProject = () => {
+        return (
+            <div className='confirm-delete-project'>
+                <div className='confirm-delete-project-box'>
+                    <span>Are you sure?</span>
+                    <div className='confirmation-on-delete-project'>
+                        <button className='delete-project-for-sure' onClick={deleteCurrentProject}>Delete</button>
+                        <button className='cancel-delete-project' onClick={() => setDeleteProjectWindow(false)}>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     const onAddNewTask = () => {
         setNewTaskWindow(true);
+    }
+
+    const deleteCurrentProject = async () => {
+        await dispatch(deleteProject({projectId: project.projectId}));
+        window.history.go(-1);
+    }
+
+    const onDeleteProject = () => {
+        setDeleteProjectWindow(true);
     }
 
     return (
         <div className='project-view'>
             {newTaskWindow? newTask() : <></>}
+            {deleteProjectWindow? confirmDeleteProject() : <></>}
             <Sidebar />
             <div className='project-main'>
                 <div className='project-overview'>
                     <div className='project-overview-header'>
-                        <div className='project-title'><span>{project.title}</span></div>
-                        <div className='add-task' onClick={onAddNewTask}><i className="fa fa-plus"></i></div>
+                        <div className='project-title'>
+                            <span>{project.title}</span>
+                            {project.projectRole == 'admin'? <div className='delete-project' onClick={onDeleteProject}><i className="fa fa-trash"></i></div> : <></>}
+                        </div>
+                        {project.projectRole == 'admin'? <div className='add-task' onClick={onAddNewTask}><i className="fa fa-plus"></i></div> : <></>}
                     </div>
                     <div className='project-contribs'>
                         <div className='project-admin'><span>{project.creator}</span></div>
-                        {members.length != 0? <div className='project-members'><span>{members.map(member => member.userName).join(', ')}</span></div> : <></>}
+                        {myProject.members.length != 0? <div className='project-members'><span>{myProject.members.map(member => member.userName).join(', ')}</span></div> : <></>}
+                        <div className={`project-status project-status-${project.status.toLowerCase().replaceAll(' ', '-')}`}>{project.status}</div>
                     </div>
                     <div className='project-description'><span>{project.description}</span></div>
                 </div>
 
-                {tasksView()}
+                {tasksView(myProject.tasks)}
             </div>
 
         </div>

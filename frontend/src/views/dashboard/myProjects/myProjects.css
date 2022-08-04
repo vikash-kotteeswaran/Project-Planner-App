@@ -105,13 +105,12 @@ button.submit-project-details {
 }
 
 button.submit-project-details:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    /* color: rgba(255, 255, 255, 0.5); */
+    background-color: rgba(0, 0, 185, 0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 button.submit-project-details:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    /* color: rgba(255, 255, 255, 0.5); */
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
 }
 
 /*  */
@@ -127,6 +126,7 @@ div.my-projects-header > h1 {
     margin-top: 20px;
     margin-bottom: 40px;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 div.my-projects-header > div.add-project {
@@ -140,6 +140,7 @@ div.my-projects-header > div.add-project {
     box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
     padding: 10px 25px;
     border-radius: 30px;
+    cursor: pointer;
 }
 
 div.my-projects-header > div.add-project:hover {
@@ -171,14 +172,11 @@ div.project-card {
     width: 325px;
     height: 325px;
     background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
 }
 
 div.project-card:hover {
     background-color: rgba(0, 0, 0, 0.02);
-}
-
-div.project-card:active {
-    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
 }
 
 div.project-title {
@@ -193,6 +191,42 @@ div.project-desc {
     color: rgba(0, 0, 0, 0.8);
 }
 
+div.project-card:active {
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
+div.project-card-extra {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+div.project-progress {
+    margin-top: 20px;
+    /* margin-left: 10px; */
+    text-align: left;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: fit-content;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 155, 0, 0.8);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+div.project-progress-to-be-done {
+    background-color: rgba(0, 0, 155, 0.8);
+}
+
+div.project-progress-done {
+    background-color: rgba(155, 0, 0, 0.8);
+}
+
+div.project-progress:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.4);
+}
+
 div.project-admin {
     margin-top: 20px;
     /* margin-left: 10px; */
@@ -201,8 +235,9 @@ div.project-admin {
     border-radius: 10px;
     width: fit-content;
     color: rgba(255, 255, 255, 0.7);
-    background-color: rgba(155, 0, 0, 0.8);
+    background-color: rgba(155, 90, 90, 0.8);
     box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
 }
 
 div.project-admin:hover {

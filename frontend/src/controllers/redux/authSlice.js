@@ -26,10 +26,10 @@ export const addUser = createAsyncThunk('auth/AddUser', async (payload) => {
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        userId: null,
-        userName: null,
-        loggedIn: false,
-        authorized: false,
+        userId: localStorage.getItem('userId') || null,
+        userName: localStorage.getItem('userName') || null,
+        loggedIn: localStorage.getItem('loggedIn') || false,
+        authorized: localStorage.getItem('authorized') || false,
         failure: false,
         signedUp: false
     },
@@ -37,6 +37,7 @@ const authSlice = createSlice({
         logIn: (state) => {
             if(state.authorized){
                 state.loggedIn = true;
+                localStorage.setItem('loggedIn', true);
             };
         },
 
@@ -46,12 +47,22 @@ const authSlice = createSlice({
             state.failure = false;
             state.signedUp = false;
             state.userId = null;
+            state.userName = null;
+
+            localStorage.setItem('loggedIn', false);
+            localStorage.setItem('authorized', false);
+            localStorage.setItem('userId', null);
+            localStorage.setItem('userName', null);
         },
 
         guestLogIn: (state) => {
             state.authorized = true;
             state.userId = 1;
             state.userName = 'vikash';
+            
+            localStorage.setItem('authorized', true);
+            localStorage.setItem('userId', state.userId);
+            localStorage.setItem('userName', state.userName);
         },
 
         failure_span: (state, action) => {
@@ -59,17 +70,21 @@ const authSlice = createSlice({
         }
     },
     extraReducers:{
-        [authenticate.pending]: (state, action) => {console.log("Authenticating...");},
+        [authenticate.pending]: () => {console.log("Authenticating...");},
         [authenticate.fulfilled]: (state, action) => {
 
             if(action.payload.success.data.length === 1){
                 state.authorized = true;
+                localStorage.setItem('authorized', true);
             } else{
                 state.failure = true;
             }
 
             state.userId = action.payload.success.data[0].userId;
             state.userName = action.payload.success.data[0].userName;
+
+            localStorage.setItem('userId', state.userId);
+            localStorage.setItem('userName', state.userName);
 
             console.log("Authenticated.", action.payload, state.userId);
         },

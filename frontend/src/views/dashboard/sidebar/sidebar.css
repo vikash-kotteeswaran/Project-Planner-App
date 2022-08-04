@@ -21,7 +21,6 @@ div.sidebar {
     background: linear-gradient(rgba(255, 255, 255), rgba(255, 255, 255), rgba(255, 255, 255), rgba(255, 255, 255),
     rgba(255, 255, 255), rgba(255, 255, 255), rgba(128, 128, 128, 0.02));
     white-space: nowrap;
-    cursor: default;
 }
 
 #app-logo > .sidebar-ops {
@@ -73,6 +72,7 @@ div.sidebar-view-ops:hover {
 .sidebar-ops {
     width: 0px;
     opacity: 0;
+    cursor: pointer;
 }
 
 @keyframes makeSidebarOpsIconHidden {

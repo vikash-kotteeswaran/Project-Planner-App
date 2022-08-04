@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserProjects, getProjectTasks, addNewProject, getProjectMembers } from '../../../controllers/redux/myProjectSlice';
+import { getUserProjects, getProjectTasks, addNewProject, getProjectMembers, eraseStates, eraseProjectStates } from '../../../controllers/redux/myProjectSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Sidebar from '../sidebar/sidebar';
@@ -19,10 +19,11 @@ const MyProjects = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(myProject.projects.length == 0) dispatch(getUserProjects({userId: userId}));
-    }, [userId, myProject.projectsChanged, dispatch]);
+        dispatch(getUserProjects({userId: userId}));
+        dispatch(eraseProjectStates());
+    }, [dispatch]);
 
-    const projects = myProject.projects;
+    // const projects = myProject.projects;
 
     const wordLimiter = (paragraph) => {
         // Colour of readmore should be gray... look onto that
@@ -31,45 +32,47 @@ const MyProjects = () => {
         else return <span>{paragraph}</span>;
     }
 
-    const onProjectClick = (event) => {
-        setProjectId(event.currentTarget.id);
-    }
-
     const openNewProject = () => {
         setNewProjectWindow(true);
     }
 
-    useEffect(() => {
-        // console.log('projectId', projectId);
-        if(projectId != '^') {
-            dispatch(getProjectTasks({projectId: projectId}));
-            dispatch(getProjectMembers({projectId: projectId}));
-        }
-    }, [projectId, myProject.taskChange, dispatch])
+    // useEffect(() => {
+    //     // console.log('projectId', projectId);
+    //     if(projectId != '^') {
+    //         dispatch(getProjectTasks({projectId: projectId}));
+    //         dispatch(getProjectMembers({projectId: projectId}));
+    //     }
+    // }, [projectId, myProject.taskChange, dispatch])
 
     useEffect(() => {
-        const project = projects.filter(project => project.projectId == projectId)[0];
-        const tasks = myProject.tasks;
-        const members = myProject.members;
+        const project = myProject.projects.filter(project => project.projectId == projectId)[0];
 
-        if(projectId != '^') navigate(`/project/${projectId}`, {state: {project: project, tasks: tasks, members: members, userId: userId}});
-    }, [myProject.tasks, navigate])
+        if(projectId != '^') navigate(`/project/${projectId}`, {state: {project: project, userId: userId}});
+    }, [projectId, navigate])
 
     const projectDivs = () => {
+
+        const onProjectClick = (event) => {
+            setProjectId(event.currentTarget.id);
+        }
+
         let mainDiv = [];
 
-        if(projects[0] == null){
+        if(myProject.projects[0] == null){
             mainDiv.push(
                 <div className='no-project-exists'><span>No projects are currently here</span></div>
             );
         }
         
-        for (let project of projects){
+        for (let project of myProject.projects){
             mainDiv.push(
                 <div id={project.projectId} className='project-card' onClick={onProjectClick}>
                     <div className='project-title'>{project.title}</div>
                     <div className='project-desc'>{wordLimiter(project.description)}</div>
-                    <div className='project-admin'>{project.creator}</div>
+                    <div className='project-card-extra'>
+                        <div className='project-admin'>{project.creator}</div>
+                        <div className={`project-progress project-progress-${project.status.toLowerCase().replaceAll(' ', '-')}`}>{project.status}</div>
+                    </div>
                 </div>
             );
         };
@@ -153,7 +156,15 @@ const MyProjects = () => {
 
             if(add) {
                 await dispatch(addNewProject(newProjectInput));
+                setNewProjectInput({
+                    title: '',
+                    description: '',
+                    status: 'None',
+                    userId: userId,
+                    admin: userName
+                });
                 setNewProjectWindow(false);
+                window.location.reload();
             }
         }
 

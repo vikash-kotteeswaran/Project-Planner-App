@@ -38,6 +38,22 @@ export const addNewProject = createAsyncThunk('myProject/addNewProject', async (
     return data;
 });
 
+export const deleteProject = createAsyncThunk('myProject/deleteProject', async (payload) => {
+    const response = await fetch('https://api-projectplanner.herokuapp.com/api/deleteProjectsDetails', {
+        'headers':{
+            'content-type': 'application/json'
+        },
+        'method':'DELETE',
+        'body': JSON.stringify({
+            'projectId': payload.projectId
+        })
+    });
+
+    const data = response.json();
+
+    return data;
+});
+
 export const getProjectMembers = createAsyncThunk('myProject/getProjectMembers', async (payload) => {
     const response = await fetch(`https://api-projectplanner.herokuapp.com/api/getProjectMembers?projectId=${payload.projectId}`);
     const data = response.json();
@@ -65,19 +81,39 @@ export const addNewTask = createAsyncThunk('myProject/addNewTask', async (payloa
     return data;
 });
 
+export const deleteTask = createAsyncThunk('myProject/deleteTask', async (payload) => {
+    const response = await fetch('https://api-projectplanner.herokuapp.com/api/deleteTasks', {
+        'headers':{
+            'content-type': 'application/json'
+        },
+        'method':'DELETE',
+        'body': JSON.stringify({
+            'taskId': payload.taskId
+        })
+    });
+
+    const data = response.json();
+
+    return data;
+});
+
 const myProjectSlice = createSlice({
     name: "myProject",
     initialState: {
         projects: [],
         tasks: [],
-        members: [],
-        tasksChanged: 0,
-        projectsChanged: 0
+        members: []
     },
     reducers:{
-        userLoggingOut: (state) => {
+        eraseStates: (state) => {
             state.projects = [];
             state.tasks = [];
+            state.members = [];
+        },
+
+        eraseProjectStates: (state) => {
+            state.tasks = [];
+            state.members = [];
         }
     },
     extraReducers: {
@@ -99,9 +135,16 @@ const myProjectSlice = createSlice({
         [addNewProject.pending]: () => {console.log('adding new project...')},
         [addNewProject.fulfilled]: (state, action) => {
             console.log(action);
-            if(action.payload.success.affectedRows == 1){
+            if(action.payload.success.affectedRows <= 1){
                 console.log('new project added.');
-                state.projectsChanged += 1;
+            }
+        },
+
+        [deleteProject.pending]: () => {console.log('deleting project...')},
+        [deleteProject.fulfilled]: (state, action) => {
+            console.log(action);
+            if(action.payload.success.projectsDetails.changedRows <= 1 && action.payload.success.projectsAndUsers.changedRows <= 1 && action.payload.success.tasks.changedRows <= 1){
+                console.log('project deleted.');
             }
         },
 
@@ -115,9 +158,16 @@ const myProjectSlice = createSlice({
         [addNewTask.pending]: () => {console.log('adding new task...')},
         [addNewTask.fulfilled]: (state, action) => {
             console.log(action);
-            if(action.payload.success.affectedRows == 1){
+            if(action.payload.success.affectedRows <= 1){
                 console.log('new task added.');
-                state.tasksChanged += 1;
+            }
+        },
+
+        [deleteTask.pending]: () => {console.log('deleting task...')},
+        [deleteTask.fulfilled]: (state, action) => {
+            console.log(action);
+            if(action.payload.success.changedRows <= 1){
+                console.log('task deleted.');
             }
         }
     }
@@ -125,4 +175,4 @@ const myProjectSlice = createSlice({
 
 export default myProjectSlice.reducer;
 
-export const {userLoggingOut} = myProjectSlice.actions;
+export const {eraseStates, eraseProjectStates} = myProjectSlice.actions;
