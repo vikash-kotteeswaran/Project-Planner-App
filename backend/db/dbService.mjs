@@ -346,7 +346,7 @@ export class ProjectsDbService {
                 query += ';';
 
                 connection.query(query, [userId], (err, res) => {
-                    if(err) reject(new Error(err));
+                    if(err) reject(new Error(err.message));
                     else resolve(res);
                 });
             });
@@ -366,7 +366,7 @@ export class ProjectsDbService {
                 const query = "SELECT usersCred.id as userId, usersCred.name as userName, projectsAndUsers.projectRole as projectRole FROM usersCred JOIN projectsAndUsers ON projectsAndUsers.userId = usersCred.id WHERE projectsAndUsers.projectId = ? AND projectsAndUsers.projectRole != 'admin'";
 
                 connection.query(query, [projectId], (err, res) => {
-                    if(err) reject(new Error(err))
+                    if(err) reject(new Error(err.message))
                     else resolve(res)
                 });
             });
@@ -386,7 +386,7 @@ export class ProjectsDbService {
                 const query = "INSERT INTO projectsAndUsers (userId, projectId, projectRole) VALUES (?, ?, 'member')";
 
                 connection.query(query, [userId, projectId], (err, res) => {
-                    if(err) reject(new Error(err))
+                    if(err) reject(new Error(err.message))
                     else resolve(res)
                 });
             });
@@ -570,7 +570,7 @@ export class TasksDbService {
                 query += ';';
 
                 connection.query(query, [userId], (err, res) => {
-                    if(err) reject(new Error(err));
+                    if(err) reject(new Error(err.message));
                     else resolve(res);
                 });
             });
