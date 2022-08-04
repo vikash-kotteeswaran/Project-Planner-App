@@ -266,7 +266,7 @@ export class ProjectsDbService {
                                DELETE FROM projectsAndUsers WHERE projectId = ?;
                                DELETE FROM tasks WHERE projectId = ?;`
 
-                connection.query(query, [projectId, projectId], (err, res) => {
+                connection.query(query, [projectId, projectId, projectId], (err, res) => {
                     if(err) reject(new Error(err.message));
                     else resolve(res);
                 }); 
