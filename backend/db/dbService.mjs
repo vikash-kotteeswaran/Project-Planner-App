@@ -415,7 +415,7 @@ export class TasksDbService {
                 let query = `SELECT tasks.id as taskId, tasks.projectId, tasks.userId, usersCred.name, tasks.userAssignedId, 
                              secondJoin.name as userAssignedName, tasks.title, tasks.description, tasks.status, tasks.createdDate 
                              FROM tasks JOIN usersCred ON tasks.userId = usersCred.id 
-                             LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id;`;
+                             LEFT JOIN usersCred as secondJoin ON tasks.userAssignedId = secondJoin.id`;
                 if(count != null) {
                     query += ` LIMIT ${count}`;
                     if(start != null) {
