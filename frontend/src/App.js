@@ -7,7 +7,8 @@ import { Navigate } from 'react-router-dom';
 import MyProjects from './views/dashboard/myProjects/myProjects';
 import ProjectTab from './views/dashboard/projectTab/projectTab';
 import TaskTab from './views/dashboard/taskTab/taskTab';
-import Projects from './views/dashboard/projects/projects';
+import AllProjects from './views/dashboard/allProjects/allProjects';
+import AllTasks from './views/dashboard/allTasks/allTasks';
 
 function App() {
 
@@ -22,8 +23,8 @@ function App() {
           <Route exact path='/login' element={<LoginPage />}></Route>
           {/* <Route exact path='/dashboard' element={auth.loggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route> */}
           <Route exact path='/myProjects' element={auth.loggedIn ? <MyProjects /> : <Navigate to='/login' />}></Route>
-          <Route exact path='/otherProjects' element={auth.loggedIn ? <Projects /> : <Navigate to='/login' />}></Route>
-          <Route exact path='/otherTasks' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
+          <Route exact path='/otherProjects' element={auth.loggedIn ? <AllProjects /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/otherTasks' element={auth.loggedIn ? <AllTasks /> : <Navigate to='/login' />}></Route>
           <Route exact path='/stats' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
           <Route exact path='/profile' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
           <Route exact path='/settings' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>

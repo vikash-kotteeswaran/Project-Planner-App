@@ -36,14 +36,6 @@ const MyProjects = () => {
         setNewProjectWindow(true);
     }
 
-    // useEffect(() => {
-    //     // console.log('projectId', projectId);
-    //     if(projectId != '^') {
-    //         dispatch(getProjectTasks({projectId: projectId}));
-    //         dispatch(getProjectMembers({projectId: projectId}));
-    //     }
-    // }, [projectId, myProject.taskChange, dispatch])
-
     useEffect(() => {
         const project = myProject.projects.filter(project => project.projectId == projectId)[0];
 
@@ -80,7 +72,7 @@ const MyProjects = () => {
         return (
             <div className='my-projects-main'>
                 <div className='my-projects-header'>
-                    <h1>My Projects</h1>
+                    <h1>MY PROJECTS</h1>
                     <div className='add-project' onClick={openNewProject}><i className="fa fa-plus"></i></div>
                 </div>
                 <div className='projects'>

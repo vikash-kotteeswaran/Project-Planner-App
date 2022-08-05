@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(rgb(238, 175, 075), rgb(168, 165, 055), rgb(138, 165, 055), rgb(128, 165, 065), rgb(108, 155, 075), rgb(098, 145, 085),rgb(088, 135, 095));
+    /* background: radial-gradient(rgb(238, 175, 075), rgb(168, 165, 055), rgb(138, 165, 055), rgb(128, 165, 065), rgb(108, 155, 075), rgb(098, 145, 085),rgb(088, 135, 095)); */
 }
 .login-form{
     display: flex;

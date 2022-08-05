@@ -12,10 +12,14 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import authSlice  from './controllers/redux/authSlice';
 import myProjectSlice from './controllers/redux/myProjectSlice';
+import allProjectSlice from './controllers/redux/allProjectSlice';
+import allTaskSlice from './controllers/redux/allTaskSlice';
 
 const reducer = combineReducers({
   auth: authSlice,
-  myProject: myProjectSlice
+  myProject: myProjectSlice,
+  allProjects: allProjectSlice,
+  allTasks: allTaskSlice
 });
 
 const store = configureStore({reducer});

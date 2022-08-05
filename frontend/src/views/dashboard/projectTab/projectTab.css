@@ -106,6 +106,11 @@ div.cancel-adding-task {
 input.new-task-title {
     margin: 20px;
     padding: 15px;
+    outline: none;
+}
+
+input.new-task-title::placeholder {
+    color: rgba(0, 0, 0, 1);
 }
 
 .task-title-error {
@@ -125,6 +130,12 @@ textarea.new-task-description {
     background-color: rgba(255, 255, 255, 0.9);
     padding: 10px 15px;
     border: none;
+    outline: none;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+textarea.new-task-description:hover {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
 }
 
 div.new-task-status-selector {
@@ -134,7 +145,7 @@ div.new-task-status-selector {
 
 span.new-task-status-selector-span {
     font-size: 13pt;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 1);
 }
 
 span.status-error {
@@ -147,6 +158,12 @@ select.new-task-status {
     padding: 5px 5px;
     width: 115px;
     border: none;
+    outline: none;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+select.new-task-status:hover {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
 }
 
 select.status-error {
@@ -337,7 +354,7 @@ div.task {
     font-size: 13pt;
     text-align: justify;
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
@@ -351,15 +368,15 @@ div.task:active {
 }
 
 div.to-be-done-list > div.task {
-    color: rgba(0, 0, 255, 0.4);
+    color: rgba(0, 0, 255, 0.6);
 }
 
 div.done-list > div.task {
-    color: rgba(255, 0, 0, 0.4);
+    color: rgba(255, 0, 0, 0.6);
 }
 
 div.in-progress-list > div.task {
-    color: rgb(14, 167, 14);
+    color: rgb(14, 250, 14);
 }
 
 div.done, div.in-progress, div.to-be-done {

@@ -50,11 +50,11 @@ const Sidebar = ({currentView}) => {
             </div>
             <div className='sidebar-view-ops' id='projects' onClick={() => {setView('projects')}}>
                 <span className='sidebar-ops-icon'><i className='fa fa-archive'></i></span>
-                <span className='sidebar-ops'>Projects</span>
+                <span className='sidebar-ops'>All Projects</span>
             </div>
             <div className='sidebar-view-ops' id='tasks' onClick={() => {setView('tasks')}}>
                 <span className='sidebar-ops-icon'><i className='fa fa-list-alt'></i></span>
-                <span className='sidebar-ops'>Tasks</span>
+                <span className='sidebar-ops'>All Tasks</span>
             </div>
             <div className='sidebar-view-ops' id='stats' onClick={() => {setView('stats')}}>
                 <span className='sidebar-ops-icon'><i className='fa fa-pie-chart'></i></span>

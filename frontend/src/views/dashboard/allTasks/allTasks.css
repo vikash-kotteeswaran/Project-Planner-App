@@ -1,0 +1,201 @@
+div.main-div {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+div.all-tasks-header {
+    text-align: left;
+    margin: 40px;
+    margin-bottom: 0px;
+    margin-left: 120px;
+}
+
+div.all-tasks-main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+}
+
+/* search section */
+
+div.all-task-search-element {
+    display: flex;
+    margin-bottom: 30px;
+    justify-content: space-around;
+    width: 350px;
+    margin-left: 570px;
+    align-items: baseline;
+}
+
+input.all-task-search-bar {
+    padding-left: 20px;
+    outline: none;
+}
+
+input.all-task-search-bar::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+select.all-task-select-search-field {
+    margin: 0px 40px;
+    height: 35px;
+    padding-left: 3px;
+    padding-right: 5px;
+    outline: none;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+select.all-task-select-search-field:hover {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
+}
+
+button.all-task-search-button {
+    margin: auto;
+    width: 100px;
+    padding: 5px;
+    font-size: 13pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 0.7);
+    border: solid 2pt rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+button.all-task-search-button:hover {
+    background-color: rgba(155, 0, 105, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+button.all-task-search-button:active {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
+}
+
+/*  */
+
+/* page progression */
+
+div.all-task-change-page {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 80px;
+    font-size: 30pt;
+    align-items: baseline;
+}
+
+div.all-task-page-changer {
+    display: flex;
+    width: 0px;
+    height: 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+div.all-task-page-changer:hover {
+    color: rgba(225, 225, 225);
+}
+
+div.all-task-page-changer:active {
+    box-shadow: 0px 0px 20px 15px rgba(0, 0, 0, 0.4);
+}
+
+/*  */
+
+div.all-tasks-table {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(150, 150, 150, 0.3);
+    font-size: 12pt;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    border-radius: 30px;
+    width: fit-content;
+    box-shadow: 0px 30px 100px 25px rgba(0, 0, 0, 0.2);
+    border: 0.5pt solid rgba(255, 255, 255, 0.7);
+}
+
+div.all-tasks-table-row, div.all-tasks-table-head {
+    display: flex;
+    overflow: hidden;
+    padding: 10px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+}
+
+div.all-tasks-table-head {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px 10px;
+    border-bottom: 4px solid rgba(255, 255, 255, 0.7);
+}
+
+div.all-tasks-table-row:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+div.all-tasks-table-head:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+div.all-tasks-table-head-element::-webkit-scrollbar, div.all-tasks-table-row-element::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+div.all-tasks-table-head-element {
+    font-size: 14pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+}
+
+div.all-tasks-table-head {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+div.all-tasks-table-row {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+div.all-tasks-table-head-taskId, div.all-tasks-table-row-taskId {
+    width: 100px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+div.all-tasks-table-head-title, div.all-tasks-table-row-title {
+    width: 300px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    min-width: 200px;
+}
+
+div.all-tasks-table-head-status, div.all-tasks-table-row-status {
+    width: 150px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+div.all-tasks-table-head-creator, div.all-tasks-table-row-creator {
+    width: 200px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+div.all-tasks-table-head-assigned, div.all-tasks-table-row-assigned {
+    width: 200px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+div.all-tasks-table-head-createdDate, div.all-tasks-table-row-createdDate {
+    width: 300px;
+    overflow-x: scroll;  
+    white-space: nowrap; 
+}
