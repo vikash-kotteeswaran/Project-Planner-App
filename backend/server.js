@@ -25,7 +25,7 @@ app.use(cors());
 
 app.get('/api', (req, res) => {
     res.json({'Welcome': 'Mutton kuska wa'});
-})
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // UsersCred Access
@@ -40,7 +40,7 @@ app.get('/api/getAllUsersCred', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 app.post('/api/addUsersCred', (req, res) => {
     const {name, password} = req.body;
@@ -50,7 +50,7 @@ app.post('/api/addUsersCred', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
-})
+});
 
 app.put('/api/updateUsersCred', (req, res) => {
     const userId = req.body.userId;
@@ -61,7 +61,7 @@ app.put('/api/updateUsersCred', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err))
-})
+});
 
 app.delete('/api/deleteUsersCred', (req, res) => {
     const userId = req.body.userId;
@@ -72,7 +72,7 @@ app.delete('/api/deleteUsersCred', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
-})
+});
 
 app.get('/api/searchUsersCred', (req, res) => {
     const types = toObject(req.query.types).map(type => type.toUpperCase());
@@ -92,7 +92,25 @@ app.get('/api/searchUsersCred', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
+
+app.get('/api/searchLengthUsersCred', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
+
+    const DbInstance = UserCredDbService.getInstance();
+    const result =  DbInstance.searchLengthUserCred(types, natures, fields, values);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ProjectsDetails Access
@@ -107,7 +125,7 @@ app.get('/api/getAllProjectsDetails', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 app.post('/api/addProjectsDetails', (req, res) => {
     const {title, userId, admin, description, status} = req.body;
@@ -117,7 +135,7 @@ app.post('/api/addProjectsDetails', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
-})
+});
 
 app.put('/api/updateProjectsDetails', (req, res) => {
     const projectId = req.body.projectId;
@@ -128,7 +146,7 @@ app.put('/api/updateProjectsDetails', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err))
-})
+});
 
 app.delete('/api/deleteProjectsDetails', (req, res) => {
     const projectId = req.body.projectId;
@@ -139,7 +157,7 @@ app.delete('/api/deleteProjectsDetails', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
-})
+});
 
 app.get('/api/searchProjectsDetails', (req, res) => {
     const types = toObject(req.query.types).map(type => type.toUpperCase());
@@ -159,7 +177,25 @@ app.get('/api/searchProjectsDetails', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
+
+app.get('/api/searchLengthProjectsDetails', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
+
+    const DbInstance = ProjectsDbService.getInstance();
+    const result =  DbInstance.searchLengthProjectsDetails(types, natures, fields, values);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+});
 
 app.get('/api/getUserProjectsDetails', (req, res) => {
     const start = req.query.start;
@@ -172,7 +208,7 @@ app.get('/api/getUserProjectsDetails', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 app.get('/api/getProjectMembers', (req, res) => {
     const projectId = req.query.projectId;
@@ -183,7 +219,7 @@ app.get('/api/getProjectMembers', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 app.post('/api/addUserToProject', (req, res) => {
     const userId = req.body.userId;
@@ -195,7 +231,7 @@ app.post('/api/addUserToProject', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ProjectsDetails Access
@@ -210,7 +246,7 @@ app.get('/api/getAllTasks', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 app.post('/api/addTasks', (req, res) => {
     const {userId, projectId, title, description, status} = req.body;
@@ -220,7 +256,7 @@ app.post('/api/addTasks', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
-})
+});
 
 app.put('/api/updateTasks', (req, res) => {
     const taskId = req.body.taskId;
@@ -231,7 +267,7 @@ app.put('/api/updateTasks', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err))
-})
+});
 
 app.delete('/api/deleteTasks', (req, res) => {
     const taskId = req.body.taskId;
@@ -242,7 +278,7 @@ app.delete('/api/deleteTasks', (req, res) => {
     result
     .then(data => res.json({'success': data}))
     .catch(err => console.log(err));
-})
+});
 
 app.get('/api/searchTasks', (req, res) => {
     const types = toObject(req.query.types).map(type => type.toUpperCase());
@@ -262,7 +298,25 @@ app.get('/api/searchTasks', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
+
+app.get('/api/searchLengthTasks', (req, res) => {
+    const types = toObject(req.query.types).map(type => type.toUpperCase());
+    checkTypeOfQuery(types);
+
+    const natures = toObject(req.query.natures).map(nature => nature.toUpperCase());
+    checkNatureOfQuery(natures);
+
+    const fields = toObject(req.query.fields);
+    const values = toObject(req.query.values);
+
+    const DbInstance = TasksDbService.getInstance();
+    const result =  DbInstance.searchLengthTasks(types, natures, fields, values);
+
+    result
+    .then(data => res.json({'success': {'data': data}}))
+    .catch(err => console.log(err));
+});
 
 app.get('/api/getUserTasks', (req, res) => {
     const start = req.query.start;
@@ -276,13 +330,13 @@ app.get('/api/getUserTasks', (req, res) => {
     result
     .then(data => res.json({'success': {'data': data}}))
     .catch(err => console.log(err));
-})
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/api/*', (req, res) => {
     res.json({'Error': 'Invalid Api Call'});
-})
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Helper Functions
@@ -291,23 +345,23 @@ const checkNatureOfQuery = (natures) => {
     for(let nature of natures){
         if(nature != 'AND' && nature != 'OR'){
             throw new Error('nature of search is invalid');
-        }
-    }
-}
+        };
+    };
+};
 
 const checkTypeOfQuery = (types) => {
     for(let type of types){
         if(type != 'LIKE' && type != '>' && type != '<' && type != '>=' && type != '<=' && type != '='){
             throw new Error('type of search is invalid');
-        }
-    }
-}
+        };
+    };
+};
 
 const toObject = (data) => {
     if(typeof(data) != "object"){
         data = [data];
-    }
+    };
     return data;
-}
+};
 
 app.listen(process.env.PORT || 3030, () => console.log('app is listening'));
