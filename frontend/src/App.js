@@ -21,7 +21,6 @@ function App() {
         <Routes>
           <Route exact path='/' element={auth.loggedIn ? <Navigate to='/myProjects' /> : <Navigate to='/login' />}></Route>
           <Route exact path='/login' element={<LoginPage />}></Route>
-          {/* <Route exact path='/dashboard' element={auth.loggedIn ? <DashboardPage /> : <Navigate to='/login' />}></Route> */}
           <Route exact path='/myProjects' element={auth.loggedIn ? <MyProjects /> : <Navigate to='/login' />}></Route>
           <Route exact path='/otherProjects' element={auth.loggedIn ? <AllProjects /> : <Navigate to='/login' />}></Route>
           <Route exact path='/otherTasks' element={auth.loggedIn ? <AllTasks /> : <Navigate to='/login' />}></Route>

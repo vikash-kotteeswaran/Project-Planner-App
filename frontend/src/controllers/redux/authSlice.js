@@ -49,10 +49,10 @@ const authSlice = createSlice({
             state.userId = null;
             state.userName = null;
 
-            localStorage.setItem('loggedIn', false);
-            localStorage.setItem('authorized', false);
-            localStorage.setItem('userId', null);
-            localStorage.setItem('userName', null);
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('authorized');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userName');
         },
 
         guestLogIn: (state) => {
