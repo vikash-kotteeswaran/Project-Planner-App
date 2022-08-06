@@ -19,14 +19,41 @@ div.all-projects-main {
     margin-left: 50px;
 }
 
+/* table operations */
+
+div.all-project-table-operations {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    width: 100%;
+    margin: 20px 0px;
+}
+
+div.all-project-row-per-page-setter > span{
+    font-weight: bold;
+    color: rgb(39, 40, 40);
+}
+
+select.all-project-row-per-page {
+    margin: 0px 20px;
+    height: 35px;
+    padding-left: 3px;
+    padding-right: 5px;
+    outline: none;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+select.all-project-row-per-page:hover {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
+}
+
 /* search section */
 
 div.all-project-search-element {
     display: flex;
-    margin-bottom: 30px;
     justify-content: space-around;
-    width: 350px;
-    margin-left: 570px;
+    width: fit-content;
     align-items: baseline;
 }
 
@@ -53,7 +80,7 @@ select.all-project-select-search-field:hover {
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
 }
 
-button.all-project-search-button {
+/* button.all-project-search-button {
     margin: auto;
     width: 100px;
     padding: 5px;
@@ -73,7 +100,7 @@ button.all-project-search-button:hover {
 
 button.all-project-search-button:active {
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
-}
+} */
 
 /*  */
 
@@ -82,9 +109,13 @@ button.all-project-search-button:active {
 div.all-project-change-page {
     display: flex;
     justify-content: space-evenly;
-    margin: 80px;
+    margin: 30px;
     font-size: 30pt;
     align-items: baseline;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 div.all-project-page-changer {
@@ -95,12 +126,35 @@ div.all-project-page-changer {
     align-items: center;
 }
 
+div.all-project-page-number {
+    font-size: 20pt;
+    text-align: center;
+}
+
 div.all-project-page-changer:hover {
     color: rgba(225, 225, 225);
 }
 
 div.all-project-page-changer:active {
     box-shadow: 0px 0px 20px 15px rgba(0, 0, 0, 0.4);
+}
+
+div.all-project-next-page-right-end {
+    display: flex;
+    width: 0px;
+    height: 0px;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+div.all-project-prev-page-left-end {
+    display: flex;
+    width: 0px;
+    height: 0px;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.2);
 }
 
 /*  */

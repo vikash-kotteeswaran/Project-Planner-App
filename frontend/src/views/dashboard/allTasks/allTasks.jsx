@@ -3,30 +3,39 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getAllTasks, searchTasks } from '../../../controllers/redux/allTaskSlice';
+import { getAllTasks, searchTasks, searchTasksLength } from '../../../controllers/redux/allTaskSlice';
 import Sidebar from '../sidebar/sidebar';
 import './allTasks.css';
 
 const AllTasks = () => {
 
-    const pageCount = 15;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [startingTask, setStartingTask] = useState(0);
     const [searchText, setSearchText] = useState({
         value: '',
         field: 'id',
-        start: startingTask,
-        count: pageCount
+        start: 0,
+        pageCount: 15,
+        prevPageCount: 0
     });
 
     useEffect(() => {
-        dispatch(searchTasks(searchText));
-    }, [startingTask, dispatch]);
+        if(searchText.prevPageCount <= tasks.tasksLength || searchText.pageCount <= tasks.tasksLength) {
+            dispatch(searchTasks(searchText));
+        }
+    }, [searchText, dispatch]);
 
     const tasks = useSelector(state => state.allTasks);
     const projectIds = useSelector(state => state.myProject.projects.map(project => project.projectId));
+
+    useEffect(() => {
+        dispatch(searchTasksLength(searchText));
+        setSearchText({
+            ...searchText,
+            start: 0
+        });
+    }, [searchText.value, searchText.field, dispatch]);
 
     const gotoTask = (event) => {
         const id = event.currentTarget.id;
@@ -76,7 +85,7 @@ const AllTasks = () => {
             ...searchText,
             value: event.target.value
         });
-    }
+    };
 
     const handleFieldChange = (event) => {
         event.preventDefault();
@@ -84,64 +93,91 @@ const AllTasks = () => {
             ...searchText,
             field: event.target.value
         });
-    }
+    };
+
+    const handlePageCountChange = (event) => {
+        event.preventDefault();
+        setSearchText({
+            ...searchText,
+            pageCount: event.target.value,
+            prevPageCount: searchText.pageCount
+        });
+    };
 
     const handlePrevPage = async () => {
-        // if(startingTask < pageCount) {
-        //     await setStartingTask(0);
-        //     await setSearchText({
-        //         ...searchText,
-        //         start: startingTask
-        //     });
-        // } else {
-        //     await setStartingTask(startingTask-pageCount);
-        //     await setSearchText({
-        //         ...searchText,
-        //         start: startingTask
-        //     });
-        // }
-        // console.log('prev', startingTask);
-        // await dispatch(searchTasks(searchText));
-    }
+        if(currentPage >= 1) {
+            setSearchText({
+                ...searchText,
+                start: searchText.start - searchText.pageCount
+            });
+        }
+
+        console.log('prev');
+    };
 
     const handleNextPage = async () => {
-        // await setStartingTask(startingTask + pageCount);
-        // await setSearchText({
-        //     ...searchText,
-        //     start: startingTask
-        // });
-        // console.log('next', startingTask);
-        // await dispatch(searchTasks(searchText));
-    }
+
+        if(currentPage < totalPages) {
+            setSearchText({
+                ...searchText,
+                start: searchText.start + searchText.pageCount
+            });
+        }
+        console.log('next');
+    };
 
     const submitSearch = (event) => {
         event.preventDefault();
         console.log(searchText);
         dispatch(searchTasks(searchText));
-    }
+    };
+
+    const currentPage = Math.floor(searchText.start/searchText.pageCount);
+    const totalPages = Math.floor(tasks.tasksLength/searchText.pageCount);
 
     return (
         <div className='main-div'>
             <Sidebar currentView={'tasks'}/>
             <div className='all-tasks-header'><h1>ALL TASKS</h1></div>
             <div className='all-tasks-main'>
-                <div className='all-task-search-element'>
-                    <input className='all-task-search-bar' placeholder='search by name' value={searchText.value} onChange={handleValueChange}></input>
-                    <select className='all-task-select-search-field' value={searchText.field} onChange={handleFieldChange}>
-                        <option className='all-task-select-search-field-option' value={'id'}>Id</option>
-                        <option className='all-task-select-search-field-option' value={'title'}>Title</option>
-                        <option className='all-task-select-search-field-option' value={'status'}>Status</option>
-                        <option className='all-task-select-search-field-option' value={'admin'}>Creator</option>
-                        <option className='all-task-select-search-field-option' value={'userAssignedName'}>Assigned User</option>
-                        <option className='all-task-select-search-field-option' value={'createdDate'}>Created Date</option>
-                    </select>
-                    <button className='all-task-search-button' onClick={submitSearch}>Search</button>
+                <div className='all-task-table-operations'>
+                    <div className='all-task-row-per-page-setter'>
+                        <span>Rows per page</span>
+                        <select className='all-task-row-per-page' value={searchText.pageCount} onChange={handlePageCountChange}>
+                            <option className='all-task-row-per-page-option' value={2}>2</option>
+                            <option className='all-task-row-per-page-option' value={5}>5</option>
+                            <option className='all-task-row-per-page-option' value={10}>10</option>
+                            <option className='all-task-row-per-page-option' value={15}>15</option>
+                            <option className='all-task-row-per-page-option' value={25}>25</option>
+                        </select>
+                    </div>
+                    <div className='all-task-search-element'>
+                        <input className='all-task-search-bar' placeholder='search by name' value={searchText.value} onChange={handleValueChange}></input>
+                        <select className='all-task-select-search-field' value={searchText.field} onChange={handleFieldChange}>
+                            <option className='all-task-select-search-field-option' value={'id'}>Id</option>
+                            <option className='all-task-select-search-field-option' value={'title'}>Title</option>
+                            <option className='all-task-select-search-field-option' value={'status'}>Status</option>
+                            <option className='all-task-select-search-field-option' value={'admin'}>Creator</option>
+                            <option className='all-task-select-search-field-option' value={'userAssignedName'}>Assigned User</option>
+                            <option className='all-task-select-search-field-option' value={'createdDate'}>Created Date</option>
+                        </select>
+                        {/* <button className='all-task-search-button' onClick={submitSearch}>Search</button> */}
+                    </div>
                 </div>
                 {allTasksTable()}
             </div>
             <div className='all-task-change-page'>
-                <div className='all-task-prev-page all-task-page-changer' onClick={handlePrevPage}><i class="fa fa-chevron-circle-left"></i></div>
-                <div className='all-task-next-page all-task-page-changer' onClick={handleNextPage}><i class="fa fa-chevron-circle-right"></i></div>
+                {
+                    currentPage == 0? 
+                    <div className='all-task-prev-page-left-end'><i class="fa fa-chevron-circle-left"></i></div> : 
+                    <div className='all-task-prev-page all-task-page-changer' onClick={handlePrevPage}><i class="fa fa-chevron-circle-left"></i></div>
+                }
+                <div className='all-task-page-number'>{searchText.start/searchText.pageCount + 1}</div>
+                {
+                    currentPage == totalPages? 
+                    <div className='all-task-next-page-right-end'><i class="fa fa-chevron-circle-right"></i></div> : 
+                    <div className='all-task-next-page all-task-page-changer' onClick={handleNextPage}><i class="fa fa-chevron-circle-right"></i></div>
+                }
             </div>
         </div>
     );

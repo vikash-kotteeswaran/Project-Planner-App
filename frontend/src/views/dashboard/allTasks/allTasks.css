@@ -19,14 +19,41 @@ div.all-tasks-main {
     margin-left: 50px;
 }
 
+/* table operations */
+
+div.all-task-table-operations {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    width: 100%;
+    margin: 20px 0px;
+}
+
+div.all-task-row-per-page-setter > span{
+    font-weight: bold;
+    color: rgb(39, 40, 40);
+}
+
+select.all-task-row-per-page {
+    margin: 0px 20px;
+    height: 35px;
+    padding-left: 3px;
+    padding-right: 5px;
+    outline: none;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+select.all-task-row-per-page:hover {
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
+}
+
 /* search section */
 
 div.all-task-search-element {
     display: flex;
-    margin-bottom: 30px;
     justify-content: space-around;
-    width: 350px;
-    margin-left: 570px;
+    width: fit-content;
     align-items: baseline;
 }
 
@@ -53,7 +80,7 @@ select.all-task-select-search-field:hover {
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
 }
 
-button.all-task-search-button {
+/* button.all-task-search-button {
     margin: auto;
     width: 100px;
     padding: 5px;
@@ -73,7 +100,7 @@ button.all-task-search-button:hover {
 
 button.all-task-search-button:active {
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
-}
+} */
 
 /*  */
 
@@ -82,9 +109,18 @@ button.all-task-search-button:active {
 div.all-task-change-page {
     display: flex;
     justify-content: space-evenly;
-    margin: 80px;
+    margin: 30px;
     font-size: 30pt;
     align-items: baseline;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+div.all-task-page-number {
+    font-size: 20pt;
+    text-align: center;
 }
 
 div.all-task-page-changer {
@@ -101,6 +137,24 @@ div.all-task-page-changer:hover {
 
 div.all-task-page-changer:active {
     box-shadow: 0px 0px 20px 15px rgba(0, 0, 0, 0.4);
+}
+
+div.all-task-next-page-right-end {
+    display: flex;
+    width: 0px;
+    height: 0px;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+div.all-task-prev-page-left-end {
+    display: flex;
+    width: 0px;
+    height: 0px;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.2);
 }
 
 /*  */

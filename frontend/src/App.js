@@ -24,9 +24,9 @@ function App() {
           <Route exact path='/myProjects' element={auth.loggedIn ? <MyProjects /> : <Navigate to='/login' />}></Route>
           <Route exact path='/otherProjects' element={auth.loggedIn ? <AllProjects /> : <Navigate to='/login' />}></Route>
           <Route exact path='/otherTasks' element={auth.loggedIn ? <AllTasks /> : <Navigate to='/login' />}></Route>
-          <Route exact path='/stats' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
-          <Route exact path='/profile' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
-          <Route exact path='/settings' element={auth.loggedIn ? <></> : <Navigate to='/login' />}></Route>
+          <Route exact path='/stats' element={auth.loggedIn ? <AllTasks /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/profile' element={auth.loggedIn ? <AllTasks /> : <Navigate to='/login' />}></Route>
+          <Route exact path='/settings' element={auth.loggedIn ? <AllTasks /> : <Navigate to='/login' />}></Route>
           <Route exact path='/signup' element={<SignUpPage />}></Route>
 
           <Route exact path='/project/:projectId' element={auth.loggedIn ? <ProjectTab /> : <Navigate to='/login' />}></Route>
