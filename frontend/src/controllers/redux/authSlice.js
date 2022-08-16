@@ -1,14 +1,31 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+const crypto = require('crypto');
 
 // If already the user exists, return with user exists span info
 
 export const authenticate = createAsyncThunk('auth/Authenticate', async (payload) => {
-    const response = await fetch(`https://api-projectplanner.herokuapp.com/api/searchUsersCred?types==&natures=AND&fields=name&values=${payload.name}&types==&natures=AND&fields=password&values=${payload.password}`);
-    const present = response.json();
-    return present;
+    const response = await fetch(`https://api-projectplanner.herokuapp.com/api/searchUsersCred?types==&natures=AND&fields=name&values=${payload.name}`);
+    const cred = await response.json();
+    let userDetails = {
+        userId: 0,
+        userName: "",
+        passwordMatched: false
+    }
+
+    if(crypto.pbkdf2Sync(payload.password, cred.success.data[0].salt, 1000, 64, 'sha256').toString('hex') == cred.success.data[0].password) {
+        userDetails.passwordMatched = true;
+        userDetails.userId = cred.success.data[0].userId;
+        userDetails.userName = cred.success.data[0].userName;
+    }
+
+    return userDetails;
 })
 
 export const addUser = createAsyncThunk('auth/AddUser', async (payload) => {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const password = crypto.pbkdf2Sync(payload.password, salt, 1000, 64, 'sha256').toString('hex');
+    console.log(salt, password);
+
     const response = await fetch('https://api-projectplanner.herokuapp.com/api/addUsersCred', {
         'headers':{
             'content-type': 'application/json'
@@ -16,7 +33,8 @@ export const addUser = createAsyncThunk('auth/AddUser', async (payload) => {
         'method':'POST',
         'body': JSON.stringify({
             'name': payload.name,
-            'password': payload.password
+            'password': password,
+            'salt': salt
         })
     });
     const added = response.json()
@@ -73,22 +91,25 @@ const authSlice = createSlice({
         [authenticate.pending]: () => {console.log("Authenticating...");},
         [authenticate.fulfilled]: (state, action) => {
 
-            if(action.payload.success.data.length === 1){
+            if(action.payload.passwordMatched){
                 state.authorized = true;
                 localStorage.setItem('authorized', true);
+
+                state.userId = action.payload.userId;
+                state.userName = action.payload.userName;
+
+                localStorage.setItem('userId', state.userId);
+                localStorage.setItem('userName', state.userName);
+
+                console.log("Authenticated. Matched Successfully", action.payload, state.userId);
             } else{
                 state.failure = true;
+                console.log("Authenticated. Did not Match");
             }
-
-            state.userId = action.payload.success.data[0].userId;
-            state.userName = action.payload.success.data[0].userName;
-
-            localStorage.setItem('userId', state.userId);
-            localStorage.setItem('userName', state.userName);
-
-            console.log("Authenticated.", action.payload, state.userId);
         },
-        [addUser.pending]: (state, action) => {console.log('adding user...');},
+        [addUser.pending]: () => {
+            console.log('adding user...');
+        },
         [addUser.fulfilled]: (state, action) => {
             console.log('User Added.', action.payload);
             if(action.payload.success.affectedRows === 1){
