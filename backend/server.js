@@ -43,9 +43,9 @@ app.get('/api/getAllUsersCred', (req, res) => {
 });
 
 app.post('/api/addUsersCred', (req, res) => {
-    const {name, password} = req.body;
+    const {name, password, salt} = req.body;
     const DbInstance = UserCredDbService.getInstance();
-    const result = DbInstance.addUserCred(name, password);
+    const result = DbInstance.addUserCred(name, password, salt);
 
     result
     .then(data => res.json({'success': data}))

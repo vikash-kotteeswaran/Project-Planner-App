@@ -61,13 +61,13 @@ export class UserCredDbService {
         }
     };
 
-    async addUserCred(name, password) {
+    async addUserCred(name, password, salt) {
         // res - result, resp - response, reject, resolve, err - error
         try{
             const resp = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO usersCred (name, password, date) VALUES (?, ?, CURRENT_TIMESTAMP)";
+                const query = "INSERT INTO usersCred (name, password, salt, date) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
 
-                connection.query(query, [name, password], (err, res) => {
+                connection.query(query, [name, password, salt], (err, res) => {
                     if(err) reject(new Error(err.message));
                     else resolve(res);
                 });
@@ -134,7 +134,7 @@ export class UserCredDbService {
         try{
             const resp = await new Promise((resolve, reject) => {
                 if(types[0] == 'LIKE') values[0] = `%${values[0]}%`;
-                let query = `SELECT id as userId, name as userName, role as userRole, date as userJoinedDate FROM usersCred WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
+                let query = `SELECT id as userId, name as userName, password, salt, role as userRole, date as userJoinedDate FROM usersCred WHERE ${fields[0]} ${types[0]} '${values[0]}'`;
 
                 for(let i = 1; i< types.length; i++){
                     if(types[i] == 'LIKE') values[i] = `%${values[i]}%`;
