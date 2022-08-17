@@ -102,7 +102,8 @@ const myProjectSlice = createSlice({
     initialState: {
         projects: [],
         tasks: [],
-        members: []
+        members: [],
+        loading: false
     },
     reducers:{
         eraseStates: (state) => {
@@ -117,12 +118,16 @@ const myProjectSlice = createSlice({
         }
     },
     extraReducers: {
-        [getUserProjects.pending]: () => {console.log('getting user projects...')},
+        [getUserProjects.pending]: (state) => {
+            console.log('getting user projects...');
+            state.loading = true;
+        },
         [getUserProjects.fulfilled]: (state, action) => {
             const data = action.payload;
             // change projects such that it doesn't return a zero length arrays even if data.length is zero
             state.projects = data.success.data;
             console.log('user projects obtained', state.projects);
+            state.loading = false;
         },
 
         [getProjectTasks.pending]: () => {console.log('getting project tasks...')},

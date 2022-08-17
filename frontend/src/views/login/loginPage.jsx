@@ -24,7 +24,36 @@ const LoginPage = () => {
     }
 
     const onSubmit = (event) => {
-        dispatch(authenticate(formInput));
+
+        let inputCheck = true;
+
+        if(formInput.name.length == 0) {
+            inputCheck = false;
+            document.querySelector('input.login-name').className = 'login-name fail'
+
+            setTimeout(() => {
+                document.querySelector('input.login-name').className = 'login-name'
+            }, 5000)
+        } else {
+            inputCheck = true;
+        }
+
+        if(formInput.password.length < 8) {
+            inputCheck = false;
+            const signupPassword = document.querySelector('input.login-password')
+            signupPassword.className = 'login-password fail'
+            signupPassword.placeholder = 'Invalid password'
+
+            setTimeout(() => {
+                document.querySelector('input.login-password').className = 'login-password'
+                document.querySelector('input.login-password').placeholder = 'Password'
+            }, 5000)
+        } else {
+            inputCheck = true;
+        }
+
+        if(inputCheck) dispatch(authenticate(formInput));
+
         // https://stackoverflow.com/questions/37146302/event-preventdefault-in-async-functions
         event.preventDefault();
     }
@@ -41,12 +70,23 @@ const LoginPage = () => {
 
     return(
         <div className='login-page'>
+            {
+            auth.loading? 
+            <div className='login-loading'>
+                <div class="spinner-grow" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div> : 
+            <></>
+            }
             <form className='login-form'>
                 <h2>LOGIN</h2>
                 <input name='name' className='login-name' placeholder='Name' onChange={onInputChange} value={formInput.name}></input>
                 <input name='password' className='login-password' type='password' placeholder='Password' onChange={onInputChange} value={formInput.password}></input>
-                <button className = 'login-button' type='submit' onClick={onSubmit}><span>Login</span></button>
-                <button className = 'guest-login' type='submit' onClick={guest}><span>Guest</span></button>
+                <div className='login-buttons'>
+                    <button className = 'login-button' type='submit' onClick={onSubmit}><span>Login</span></button>
+                    <button className = 'guest-login' type='submit' onClick={guest}><span>Guest</span></button>
+                </div>
                 {auth.failure? <span className='login-failure'>This account does not exist</span> : <></>}
                 <span className='signup-link'>Create an account? <Link to="/signup">signUp</Link></span>
             </form>

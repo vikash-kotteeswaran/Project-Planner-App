@@ -6,15 +6,34 @@
     align-items: center;
     /* background: radial-gradient(rgb(238, 175, 075), rgb(168, 165, 055), rgb(138, 165, 055), rgb(128, 165, 065), rgb(108, 155, 075), rgb(098, 145, 085),rgb(088, 135, 095)); */
 }
+
+.login-loading {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+.login-loading > div.spinner-grow {
+    color: azure;
+    width: 3rem;
+    height: 3rem;
+}
+
 .login-form{
     display: flex;
+    position: absolute;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.5);
     background: rgba(200, 200, 200, 0.3);
-    padding: 10px 50px;
+    padding: 30px 50px;
 }
 
 input{
@@ -23,6 +42,7 @@ input{
     border: none;
     border-bottom: 2px solid black;
     background: transparent;
+    outline: none;
 }
 
 input::placeholder{
@@ -30,19 +50,30 @@ input::placeholder{
     color:black;
 }
 
+.fail {
+    border-bottom: 2px solid rgba(205, 0, 0, 1);
+}
+
+.fail::placeholder {
+    color:rgba(205, 0, 0, 1);
+}
+
+.login-buttons {
+    margin-top: 20px;
+}
+
 .login-button, .guest-login{
-    margin:10px;
+    margin: 10px;
     position: relative;
     margin-top: 20px;
-    padding: 8px 10px;
-    width: 100px;
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0px 1px 10px 0.5px;
-    background: #b25235;
+    padding: 4px 0px;
+    width: 90px;
+    background: #460766;
     cursor: pointer;
     overflow: hidden;
-    color: black;
+    color: rgba(255, 255, 255, 0.7);
+    border: solid 2pt rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
     font-size: 15pt;
 }
 
@@ -54,7 +85,7 @@ input::placeholder{
 .login-button::before, .guest-login::before{
     content:'';
     position: absolute;
-    background: #333333;
+    background: #000000;
     left: 50%;
     top: 50%;
     height: 0px;

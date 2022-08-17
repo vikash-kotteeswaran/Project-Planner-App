@@ -22,23 +22,32 @@ export const authenticate = createAsyncThunk('auth/Authenticate', async (payload
 })
 
 export const addUser = createAsyncThunk('auth/AddUser', async (payload) => {
-    const salt = crypto.randomBytes(16).toString('hex');
-    const password = crypto.pbkdf2Sync(payload.password, salt, 1000, 64, 'sha256').toString('hex');
-    console.log(salt, password);
 
-    const response = await fetch('https://api-projectplanner.herokuapp.com/api/addUsersCred', {
-        'headers':{
-            'content-type': 'application/json'
-        },
-        'method':'POST',
-        'body': JSON.stringify({
-            'name': payload.name,
-            'password': password,
-            'salt': salt
-        })
-    });
-    const added = response.json()
-    return added;
+    const checkUserExists = await fetch(`https://api-projectplanner.herokuapp.com/api/searchUsersCred?types==&natures=AND&fields=name&values=${payload.name}`);
+    let userExists = await checkUserExists.json();
+    userExists = (userExists.success.data.length > 0);
+
+    if(!userExists){
+        const salt = crypto.randomBytes(16).toString('hex');
+        const password = crypto.pbkdf2Sync(payload.password, salt, 1000, 64, 'sha256').toString('hex');
+        console.log(salt, password);
+
+        const response = await fetch('https://api-projectplanner.herokuapp.com/api/addUsersCred', {
+            'headers':{
+                'content-type': 'application/json'
+            },
+            'method':'POST',
+            'body': JSON.stringify({
+                'name': payload.name,
+                'password': password,
+                'salt': salt
+            })
+        });
+        const added = await response.json();
+        return {success: {userExists: userExists, affectedRows: added.success.affectedRows}};
+    } else {
+        return {success: {userExists: userExists}};
+    }
 });
 
 const authSlice = createSlice({
@@ -49,7 +58,8 @@ const authSlice = createSlice({
         loggedIn: localStorage.getItem('loggedIn') || false,
         authorized: localStorage.getItem('authorized') || false,
         failure: false,
-        signedUp: false
+        signedUp: false,
+        loading: false
     },
     reducers: {
         logIn: (state) => {
@@ -88,7 +98,10 @@ const authSlice = createSlice({
         }
     },
     extraReducers:{
-        [authenticate.pending]: () => {console.log("Authenticating...");},
+        [authenticate.pending]: (state) => {
+            console.log("Authenticating...");
+            state.loading = true;
+        },
         [authenticate.fulfilled]: (state, action) => {
 
             if(action.payload.passwordMatched){
@@ -106,16 +119,26 @@ const authSlice = createSlice({
                 state.failure = true;
                 console.log("Authenticated. Did not Match");
             }
+
+            state.loading = false;
         },
-        [addUser.pending]: () => {
+        [addUser.pending]: (state) => {
             console.log('adding user...');
+            state.loading = true;
         },
         [addUser.fulfilled]: (state, action) => {
-            console.log('User Added.', action.payload);
-            if(action.payload.success.affectedRows === 1){
-                state.signedUp = true;
+            if(action.payload.success.userExists) {
+                console.log('Username already exisits. User cannot be added.');
+                state.failure = true;
+            } else {
+                console.log('User Added.', action.payload);
+                if(action.payload.success.affectedRows === 1){
+                    state.signedUp = true;
+                }
             }
-        }
+
+            state.loading = false;
+        }, 
     }
 });
 

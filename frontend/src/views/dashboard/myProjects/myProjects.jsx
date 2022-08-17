@@ -184,6 +184,15 @@ const MyProjects = () => {
 
     return(
         <div className='main-div'>
+            {
+            myProject.loading? 
+            <div className='my-projects-loading'>
+                <div class="spinner-grow" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div> : 
+            <></>
+            }
             {newProjectWindow? newProject() : <></>}
             <Sidebar currentView={'my-projects'}/>
             {projectDivs()}

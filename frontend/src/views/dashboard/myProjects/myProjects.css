@@ -10,6 +10,21 @@ div.my-projects-main {
     margin-left: 100px; 
 }
 
+div.my-projects-loading {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+div.my-projects-loading > div.spinner-grow {
+    width: 3rem;
+    height: 3rem;
+}
+
 /* Add project pop up */
 
 div.new-project {
